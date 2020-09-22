@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>المسح الإلكترونى - البلدية الإلكترونية - تـــاج</title>
+    <base target="_parent" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta http-equiv="X-UA-Compatible" content="requiresActiveX=true" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <link href="css/scan2.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript">
+        window.history.forward();
+        function noBack() { window.history.forward(); }
+    </script>
+    <style type="text/css">
+        .example1 {
+            height: 25px;
+            overflow: hidden;
+            position: relative;
+            width: 985px;
+        }
+
+            .example1 h3 {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                line-height: 25px;
+                text-align: center;
+                /* Starting position */
+                -moz-transform: translateX(100%);
+                -webkit-transform: translateX(100%);
+                transform: translateX(100%);
+                /* Apply animation to this element */
+                -moz-animation: example1 18s linear infinite;
+                -webkit-animation: example1 18s linear infinite;
+                animation: example1 18s linear infinite;
+            }
+        /* Move it (define the animation) */
+        @-moz-keyframes example1 {
+            0% {
+                -moz-transform: translateX(100%);
+            }
+
+            100% {
+                -moz-transform: translateX(-100%);
+            }
+        }
+
+        @-webkit-keyframes example1 {
+            0% {
+                -webkit-transform: translateX(100%);
+            }
+
+            100% {
+                -webkit-transform: translateX(-100%);
+            }
+        }
+
+        @keyframes example1 {
+            0% {
+                -moz-transform: translateX(100%); /* Firefox bug fix */
+                -webkit-transform: translateX(100%); /* Firefox bug fix */
+                transform: translateX(100%);
+            }
+
+            100% {
+                -moz-transform: translateX(-100%); /* Firefox bug fix */
+                -webkit-transform: translateX(-100%); /* Firefox bug fix */
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body onpageshow="if (event.persisted) noBack();" onunload="">
+    <div id="container" class="body_Broad_width" style="margin: 0 auto;">
+        <div class="DWTHeader">
+        </div>
+        <div id="DWTcontainer" class="body_Broad_width" style="background-color: #ffffff; height: 700px; border: 0;">
+            <div class="example1">
+                <h3>
+                    <span style="color: Red; font-size: 17px; font-weight: bold;">المعاملة غير مكتملة - </span>
+                    <span style="color: Red; font-size: 16px; font-weight: bold;">تنبيه: لن يتم حفظ المعاملة الا بعد الأرشفة</span>
+                </h3>
+            </div>
+            <div id="dwtcontrolContainer" style="height: 605px;"></div>
+            <div id="DWTNonInstallContainerID" style="width: 580px"></div>
+            <div id="DWTemessageContainer" style="margin-left: 50px; width: 580px"></div>
+            <div id="ScanWrapper">
+
+                <div id="divScanner" class="divinput">
+                    <ul class="PCollapse">
+                        <li>
+                            <div class="divType">
+                                <div class="mark_arrow expanded"></div>
+                                الماسح الضوئى
+                            </div>
+                            <div id="div_ScanImage" class="divTableStyle">
+                                <ul id="ulScaneImageHIDE">
+                                    <li style="padding-left: 15px;">
+                                        <label for="source">اختر الماسح الضوئى:</label>
+                                        <select size="1" id="source" style="position: relative; width: 220px;" onchange="source_onchange()">
+                                            <option value=""></option>
+                                        </select></li>
+                                    <li style="display: none;" id="pNoScanner">
+                                        <a href="javascript: void(0)" class="ShowtblLoadImage" style="font-size: 11px; background-color: #f0f0f0; position: relative" id="aNoScanner"><b>What if I don't have a scanner/webcam connected?</b>
+                                        </a></li>
+                                    <li style="text-align: center;">
+                                        <input id="btnScan" class="bigbutton" style="color: #C0C0C0;" disabled="disabled" type="button" value="مــــــســــح" onclick="acquireImage();" /></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="divType">
+                                <div class="mark_arrow collapsed"></div>
+                                رفع صورة من الجهاز
+                            </div>
+                            <div id="div_LoadLocalImage" style="display: none" class="divTableStyle">
+                                <ul>
+                                    <li style="text-align: center; height: 35px; padding-top: 8px;">
+                                        <input type="button" value="اختر الصورة" style="width: 130px; height: 30px; font-size: medium;" onclick="return btnLoad_onclick()" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="divType">
+                                <div class="mark_arrow collapsed"></div>
+                                خيــارات متقــدمه
+                            </div>
+                            <div id="div1" style="display: none" class="divTableStyle">
+                                <ul id="divSettings">
+                                    <li id="divProductDetail"></li>
+                                    <li style="padding-left: 9px;">
+                                        <label for="txt_fileName">
+                                            File Name:
+                                            <input type="text" size="20" id="txt_fileName" /></label>
+                                        <input type="hidden" id="hfTrxID" runat="server" clientidmode="Static" value='0' />
+                                        <input type="hidden" id="hfType" runat="server" clientidmode="Static" value='' />
+                                        <input type="hidden" id="hfaction" runat="server" clientidmode="Static" value='' />
+                                        <input type="hidden" id="hfAdd" runat="server" />
+                                    </li>
+                                    <li style="padding-left: 9px;">
+                                        <label for="imgTypejpeg2">
+                                            <input type="radio" value="jpg" name="ImageType" id="imgTypejpeg2" onclick="rd_onclick();" />JPEG</label>
+                                        <label for="imgTypetiff2">
+                                            <input type="radio" value="tif" name="ImageType" id="imgTypetiff2" onclick="rdTIFF_onclick();" />TIFF</label>
+                                        <label for="imgTypepng2">
+                                            <input type="radio" value="png" name="ImageType" id="imgTypepng2" onclick="rd_onclick();" />PNG</label>
+                                        <label for="imgTypepdf2">
+                                            <input type="radio" value="pdf" name="ImageType" id="imgTypepdf2" onclick="rdPDF_onclick();" />PDF</label></li>
+                                            <li style="padding-left: 9px;">
+                                        <label for="MultiPageTIFF">
+                                            <input type="checkbox" id="MultiPageTIFF" />Multi-Page TIFF</label>
+                                        <label for="MultiPagePDF">
+                                            <input type="checkbox" id="MultiPagePDF" />Multi-Page PDF
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="divBlank" style="height: 20px">
+                    <ul>
+                        <li></li>
+                    </ul>
+                </div>
+                <div id="tblLoadImage" style="visibility: hidden; height: 80px">
+                    <ul>
+                        <li><b>You can:</b><a href="javascript: void(0)" style="text-decoration: none; padding-left: 200px" class="ClosetblLoadImage">X</a></li>
+                    </ul>
+                    <div id="notformac1" style="background-color: #f0f0f0; padding: 5px;">
+                        <ul>
+                            <li>
+                                <img alt="arrow" src="img/arrow.gif" width="9" height="12" /><b>Install a Virtual Scanner:</b></li>
+                            <li style="text-align: center;"><a id="samplesource32bit" href="http://www.dynamsoft.com/demo/DWT/Sources/twainds.win32.installer.2.1.3.msi">32-bit Sample Source</a>
+                                <a id="samplesource64bit" style="display: none;" href="http://www.dynamsoft.com/demo/DWT/Sources/twainds.win64.installer.2.1.3.msi">64-bit Sample Source</a>
+                                from <a href="http://www.twain.org">TWG</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="divEdit" class="divinput" style="position: relative">
+                    <ul>
+                        <li>
+                            <img alt="arrow" class="arrow" src="img/arrow.gif" width="9" height="12" /><b> تعــديل الصــورة</b></li>
+                        <li style="padding-left: 9px;">
+                            <img src="img/ShowEditor.png" title="محرر الصور" alt="Show Image Editor" id="btnEditor" onclick="btnShowImageEditor_onclick()" />
+                            <img src="img/RotateLeft.png" title="دوران الصورة لليسار" alt="Rotate Left" id="btnRotateL" onclick="btnRotateLeft_onclick()" />
+                            <img src="img/RotateRight.png" title="دوران الصورة لليمين" alt="Rotate Right" id="btnRotateR" onclick="btnRotateRight_onclick()" />
+                            <img src="img/Rotate180.png" alt="تدوير 180" title="تدوير 180" onclick="btnRotate180_onclick()" />
+                            <img src="img/Mirror.png" title="انعكاس أفقى للصورة" alt="Mirror" id="btnMirror" onclick="btnMirror_onclick()" />
+                            <img src="img/Flip.png" title="انعكاس رأسى للصورة" alt="Flip" id="btnFlip" onclick="btnFlip_onclick()" />
+                            <img src="img/ChangeSize.png" title="تعديل حجم الصورة" alt="Change Image Size" id="btnChangeImageSize" onclick="btnChangeImageSize_onclick();" />
+                            <img src="img/Crop.png" title="قص المحدد من الصورة" alt="Crop" id="btnCrop" onclick="btnCrop_onclick();" />
+                        </li>
+                    </ul>
+                </div>
+                <div id="divUpload" class="divinput" style="position: relative">
+                    <ul>
+                        <li>
+                            <img alt="arrow" src="img/arrow.gif" width="9" height="12" /><b> حفــــظ المـــرفق</b></li>
+                        <li style="text-align: center">
+                            <input id="btnUpload" type="button" value="حفظ وانهاء المعاملة" onclick="btnUpload_onclick()" style="font-size: 17px; padding: 10px; cursor: pointer;" /></li>
+                    </ul>
+                </div>
+ 
+            </div>
+        </div>
+        <div class="DWTTail">
+        </div>
+    </div>
+    <div id="ImgSizeEditor" style="visibility: hidden; text-align: left;">
+        <ul>
+            <li>
+                <label for="img_height">
+                    <b>New Height :</b>
+                    <input type="text" id="img_height" style="width: 50%;" size="10" />pixel</label></li>
+            <li>
+                <label for="img_width">
+                    <b>New Width :</b>&nbsp;
+        <input type="text" id="img_width" style="width: 50%;" size="10" />pixel</label></li>
+            <li>Interpolation method:
+        <select size="1" id="InterpolationMethod">
+            <option value=""></option>
+        </select></li>
+            <li style="text-align: center;">
+                <input type="button" value="   OK   " id="btnChangeImageSizeOK" onclick="btnChangeImageSizeOK_onclick();" />
+                <input type="button" value=" Cancel " id="btnCancelChange" onclick="btnCancelChange_onclick();" /></li>
+        </ul>
+    </div>
+    <div class="narrow-screen">
+        <div class="tips-header">
+            <a href="/">
+                <img src="img/logo.png" border="0" /></a><h1>Home</h1>
+        </div>
+        <div class="tips-desktop">
+            <img src="img/sc-desktop-only.png" border="0" alt="" width="280" />
+        </div>
+        <p class="tips">
+            Sorry!
+            <br />
+            Please visit this page in your desktop web browsers. Thanks!
+        </p>
+    </div>
+    <script type="text/javascript" language="javascript" src="js/scan/jquery.js"></script>
+    <script src="js/scan/jquery.cookie.js" type="text/javascript"></script>
+    <script type="text/javascript" language="javascript" src="js/scan/dynamsoft.webtwain.initiate.js"></script>
+    <script type="text/javascript" language="javascript" src="js/scan/dynamsoft.webtwain.config.js"></script>
+    <script type="text/javascript" language="javascript" src="js/scan/online_demo_initpage.js"></script>
+    <script type="text/javascript" language="javascript" src="js/scan/online_demo_operation.js"></script>
+    
+
+    <script type="text/javascript">
+        $("ul.PCollapse li>div").click(function () {
+            if ($(this).next().css("display") == "none") {
+                $(".divType").next().hide("normal");
+                $(".divType").children(".mark_arrow").removeClass("expanded");
+                $(".divType").children(".mark_arrow").addClass("collapsed");
+                $(this).next().show("normal");
+                $(this).children(".mark_arrow").removeClass("collapsed");
+                $(this).children(".mark_arrow").addClass("expanded");
+            }
+        });
+    </script>
+    <script type="text/javascript" language="javascript">
+        // Assign the page onload fucntion.
+        $(function () {
+            pageonload();
+        });
+
+        $('#DWTcontainer').hover(function () {
+            $(document).bind('mousewheel DOMMouseScroll', function (event) {
+                stopWheel(event);
+            });
+        }, function () {
+            $(document).unbind('mousewheel DOMMouseScroll');
+        });
+    </script>
+</body>
+</html>

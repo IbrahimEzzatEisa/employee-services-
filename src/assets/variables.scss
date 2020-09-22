@@ -1,0 +1,338 @@
+$primary: #183C7A;
+$accent: #e58e26;
+$inputBorder: #757575;
+$warn: #ca3434;
+$gradientOne:#ee7752;
+$queen-pink:#E8B0B0;
+$orange:#C12828;
+$dark-orange:#6A1616;
+$purpule: #434462e3;
+$lavander : #E4D9FF;
+$dark-lavander : #7D819E;
+$glitter : #E9EBF8;
+$background-color-app:#c6e3ec;
+
+
+$dark :#46494C;
+$gray:#C5C3C6;
+$space:#4C5C68;
+$light:#DCDCDD;
+$blue:#1985A1;
+$red:#dc3545;
+$green:#28a745;
+.dropdown-menu {
+  min-width: 4rem !important;
+ 
+  text-align: center;
+  & a:hover{
+    background-color: $space  !important;
+  color: gainsboro !important;
+  text-align: center;
+
+  }
+}
+.bg-gray{
+  background-color: $gray;
+}
+.bg-space{
+  background-color: $space;
+}
+.bg-add{
+  background-color: $green;
+
+}
+.bg-cancel{
+  background-color: $red;
+
+}
+.btn-space{
+  background-color: $space !important;
+  &:hover{
+    background-color: #343e46 !important;
+  }
+}
+
+.text-space{
+  color: $space;
+}
+.text-title{
+  color: $light ;
+}
+.text-dark{
+  color: $dark !important;
+}
+.text-blue{
+  color: $blue ;
+}
+.text-gray{
+  color: $gray !important;
+}
+
+.bg-light{
+  background-color: $light !important;
+}
+
+.dropdown-menu{
+  right: -28px !important;
+}
+.hide-border-bg{
+background: none;
+border: none;
+}
+.delete-btn{
+  background: none;
+  border: none;
+}
+.bg-section{
+  background: repeating-linear-gradient(45deg, rgb(80, 80, 80) 0px, rgb(80, 80, 80) 80px,rgb(70, 70, 70) 80px, rgb(70, 70, 70) 160px);
+}
+
+.content{
+  background-color: $gray
+}
+@media (max-width: 830px) {
+  h1 {
+    font-size: 2em;
+  }
+}
+@keyframes gradients {
+  0% {
+    background-position: 0 0;
+  }
+  25% {
+    background-position: 50% 0;
+  }
+  50% {
+    background-position: 90% 0;
+  }
+  60% {
+    background-position: 60%;
+  }
+  75% {
+    background-position: 40%;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.app-bg{
+  // background-image: linear-gradient(to right, #a4d5f3, #72e2fd, #6ed0f7f8, #1487ea, #054f7d);
+  background-size: 600%;
+  background-position: 0 0;
+  /* Animation */
+  animation-duration: 90s;
+  animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  animation-name: gradients;
+  background-color:$light;
+  
+}
+
+.fa-trash-alt{
+  color:$orange;
+  &:hover{
+    color :$dark-orange;
+  }
+}
+.fa-file{
+  color: $dark;
+  &:hover{
+    color :$dark-lavander;
+  }
+}
+.text-lavender{
+  color : $dark-lavander;
+}
+.bg-lavender{
+  background-color: $dark-lavander;
+}
+
+.fa-trash-alt,.fa-file{
+  font-size: 15pt;
+  
+}
+.is-invalid{
+  border: 1px solid red;
+}
+.btn-hov:hover {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+@font-face {
+  font-family: ocean;
+  src: url("/assets/fonts/BlueOcean.ttf");
+}
+.ocean{
+  font-family: ocean;
+}
+label {
+  font-family: ocean;
+  font-weight: bolder;
+  font-size: 10pt;
+  color:$dark;
+}
+@font-face {
+  font-family: cool;
+  src: url("/assets/fonts/cool.ttf");
+}
+@font-face {
+  font-family: stc;
+  src: url("/assets/fonts/stc.otf");
+}
+.coll{
+  font-family: cool;
+}
+.sign {
+
+  &__word {
+    color: #c6e2ff;
+    animation: neon .08s ease-in-out infinite alternate;
+  }
+
+}
+.pointer:hover{
+  cursor: pointer;
+}
+/*-- Animation Keyframes --*/
+
+// animation
+
+@keyframes neon {
+  from {
+    text-shadow:
+    0 0 6px rgba(202,228,225,0.92),
+    0 0 30px rgba(202,228,225,0.34),
+    0 0 12px rgba(30,132,242,0.52),
+    0 0 21px rgba(30,132,242,0.92),
+    0 0 34px rgba(30,132,242,0.78),
+    0 0 54px rgba(30,132,242,0.92);
+  }
+  to {
+    text-shadow:
+    0 0 6px rgba(202,228,225,0.98),
+    0 0 30px rgba(202,228,225,0.42),
+    0 0 12px rgba(30,132,242,0.58),
+    0 0 22px rgba(30,132,242,0.84),
+    0 0 38px rgba(30,132,242,0.88),
+    0 0 60px rgba(30,132,242,1);
+  }
+}
+
+table {
+  overflow: hidden;
+  text-align: center !important;
+  color: $light !important;
+ 
+  tbody{
+    tr{
+      background-color: $space;
+    }
+    & tr:nth-child(even) {
+      background-color: lighten($color: $space, $amount: 15) !important;
+    }
+    td, th {
+      position: relative;
+      outline: 0;
+      text-align: center;
+      color: $light;
+      // background-color: $space;
+    }
+    & tr:hover{
+      background-color: darkslategray !important;
+      transform: scale(1.02);
+    cursor: pointer;
+     box-shadow: -3px 0 0 0 $accent inset;
+     td {
+      z-index: 1;
+      color:  #c6e2ff !important;
+      text-shadow: 0 0 6px rgba(202, 228, 225, 0.92), 0 0 9px rgba(202, 228, 225, 0.34), 0 0 12px rgba(30, 132, 242, 0.52), 0 0 15px rgba(30, 132, 242, 0.92), 0 0 18px rgba(30, 132, 242, 0.78) !important;
+    }
+    }
+    
+  }
+  
+
+}
+.create-button {
+  color: rgb(0, 160, 40);
+}
+.delete-button {
+  color:firebrick
+}
+.delete-button:hover {
+  color: rgb(248, 63, 63);
+  text-shadow: 0 0 3px #FFFFFF, 0 0 7px #F00, 0 0 11px rgb(255, 0, 0),
+}
+.create-button:hover {
+  color: rgb(83, 250, 71);
+  text-shadow: 0 0 3px #FFFFFF, 0 0 7x #0F0, 0 0 11px #0F0
+}
+.form-control.is-invalid {
+  border-color: #dc3545!important;
+}
+
+
+
+.upload-container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -27px;
+  margin-bottom: -27px;
+  margin-left: -123px;
+  width: 200px;
+  height: 200px;
+  border: 1px dashed $dark;
+}
+
+.upload-container p{
+  width:fit-content;
+  height: fit-content;
+  text-align: center;
+  line-height: 32px;
+  margin: auto;
+  color: $dark !important;
+  font-family:ocean ;
+  font-weight: bolder;
+  font-size: 14pt;
+  mix-blend-mode : multiply;
+}
+.upload-container input{
+  position: absolute !important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  display: block;
+  
+}
+input[type=file]{
+  cursor: pointer;
+}
+section {
+  padding: 8px 0 !important;
+}
+

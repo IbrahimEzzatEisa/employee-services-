@@ -1,0 +1,95 @@
+<div #componentRef class="app-dropdown-list">
+    <input class="form-control" 
+      name="selectInput"
+      [placeholder]="busyLoading? 'جارى التحميل...': placeholder"
+      (focus)="showDropdown()"
+      [ngClass]="{
+        'is-invalid': required && isDirty && _selectedItem && !_selectedItem[idField] || required && _selectedItem && !_selectedItem[idField] && submitted, 
+        'read-only': !isReadOnly,
+        'disabled': disabled && !isReadOnly
+      }"
+      [ngModel]="_selectedItem? _selectedItem[textField] : ''"
+      #selectInput="ngModel"
+      [disabled]="disabled"
+      readonly
+    />
+  
+    <i *ngIf="!isReadOnly && !disabled"
+      class="dropdown-icon fas fa-caret-down clickable"
+      [ngClass]="{'isOpen': isOpen}"
+      (click)="showDropdown()">
+    </i>
+  
+    <i *ngIf="!isReadOnly && !disabled"
+      class="delete-icon fas fa-times clickable"
+      [hidden]="_selectedItem?.idField? false: true"
+      (click)="resetSelectedItem(true)">
+    </i>
+  
+    <div [hidden]="!isOpen" class="dropdown-list">
+  
+      <form #searchForm="ngForm" class="list-search">
+        <input #searchInput
+          type="text"
+          placeholder="بحث"
+          name="search"
+          autocomplete="off"
+          [(ngModel)]="searchText"
+        />
+      </form>
+  
+      <div class="search-results">
+        <p class="text-center"
+          *ngIf="list.length===0">
+          لا يوجد نتائج
+        </p>
+  
+        <!-- <li *ngFor="let listItem of filteredList"
+          (click)="select(listItem)">
+          {{listItem[textField]}}
+        </li> -->
+        <table class="table theme-table table-hover">
+          <thead>
+            <tr class="bgColorBlue">
+              <th *ngFor="let field of viewFields">
+                {{field}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="body-tr" *ngFor="let item of list">
+              <td *ngFor="let prop of ViewFieldsProps" (click)="selectItem(item)">
+                {{item[prop]}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <app-pagination *ngIf="totalNumberOfPages && !(totalNumberOfPages==1)" 
+          [page]="filterParams.pageNumber"
+          [size]="totalNumberOfPages"
+          (onChange)="changePage($event)">
+        </app-pagination>
+      </div>
+  
+      <!-- <div *ngIf="totalPages>1" class="master-form-nav text-center">
+        <button title="الأول" (click)="changePage(1)" class="right" [disabled]="pageNumber==1">
+          <i class="fa fa-angle-double-right"></i>
+        </button>
+        <button title="السابق" (click)="changePage(pageNumber-1)" class="right" [disabled]="pageNumber==1">
+          <i class="fa fa-angle-right"></i>
+        </button>
+        <span class="master-form-ranking">
+          <span class="rank">{{pageNumber}}</span> - {{totalPages}}
+        </span>
+        <button title="التالي" (click)="changePage(pageNumber+1)" class="left" [disabled]="pageNumber==totalPages">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <button title="الأخير" (click)="changePage(totalPages)" class="left" [disabled]="pageNumber==totalPages">
+          <i class="fa fa fa-angle-double-left"></i>
+        </button>
+      </div> -->
+    </div>
+     
+  </div>
+  

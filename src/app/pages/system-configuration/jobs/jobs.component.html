@@ -1,0 +1,302 @@
+<div class="row my-2 bg-space p-1 pt-3 pl-4">
+    <app-page-title
+      super=" إدارة الوظـــــــــائف "
+    ></app-page-title>
+  </div>
+  
+
+  <div class="">
+    <div class="row bg-space pt-3 wow fadeIn" data-wow-duration="1.5s" data-wow-delay="1s">
+      <div class="col-md-4">
+        <div class="input-group bs-default mb-3">
+            <i
+            class="btn-hov fas fa-plus mr-3 mt-1 pointer text-title h4 d-inline"
+            data-toggle="modal" 
+            data-target="#exampleModal"
+          ></i> 
+  
+          <input
+            type="text"
+            class="form-control"
+            placeholder="بحث..."
+            name="search"
+            (keyup)="search($event)"
+          >
+          <div class="input-group-append ">
+            <span class="input-group-text  "><i class="text-primary fas fa-search"></i>
+              <i
+                *ngIf="queryString"
+                (click)="removeSearch()"
+                class="text-danger fa fa-times clickable"
+              >
+              </i></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7"></div>
+  
+      <div class="col-md-1 ml-0 pl-0 mb-2">
+        <div class="row">
+          <div class="col-6">
+            <div class="dropdown">
+              <button
+                class="btn bg-title dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                {{filterParams.pageSize}}
+              </button>
+              <div
+                class="dropdown-menu  text-dark bg-title"
+                aria-labelledby="dropdownMenuButton"
+              >
+                <a
+                  class="dropdown-item theme-dropdown"
+                  (click)="setPageSize(10)"
+                ><b>10</b></a>
+                <a
+                  class="dropdown-item theme-dropdown"
+                  (click)="setPageSize(20)"
+                ><b>20</b>
+                </a>
+                <a
+                  class="dropdown-item theme-dropdown"
+                  (click)="setPageSize(30)"
+                ><b>30</b></a>
+                <a
+                  class="dropdown-item theme-dropdown"
+                  (click)="setPageSize(40)"
+                ><b>40</b></a>
+                <a
+                  class="dropdown-item theme-dropdown b"
+                  (click)="setPageSize(50)"
+                ><b>50</b></a>
+              </div>
+  
+            </div>
+          </div>
+          
+        </div>
+  
+      </div>
+  
+  
+    </div>
+  
+    <div class="row">
+      <table class="table table-striped">
+        <thead class="">
+          <tr class="bg-space">
+            <th *ngFor="let title of configs"> {{title.label}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of jobsList; let i=index" class="wow slideInLeft"  >
+            <td style="text-align: right;">{{item.ID }}</td>
+            <td style="text-align: right;">{{item.Name}}</td>
+     
+            <td style="text-align: right;">{{item.choises}}
+                <button
+                class=""
+                title="تعديل "
+                (click)="fill(item)"
+                data-toggle="modal"
+                data-target="#basicExampleModal"
+              ><i class="fas fa-file btn-hov text-gray "></i></button>
+              <button
+                class=""
+                title="حذف "
+                (click)="delete(item.ID,item.Name , i)"
+              ><i class="far fa-trash-alt btn-hov"></i></button>
+            </td>
+          </tr> 
+        </tbody>
+  
+      </table>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-4 col-sm-9 ml-3">
+        <app-pagination
+        *ngIf="totalNumberOfPages && !(totalNumberOfPages==1)"
+        [page]="filterParams.pageNumber"
+        [size]="totalNumberOfPages"
+        (onChange)="changePageNumber($event)"
+      >
+      </app-pagination>
+      </div>
+      <div class="col-md-4 col-sm-3 form-group ml-auto">
+        <app-table-info
+        *ngIf="jobsList?.length>0 && !busyLoading"
+        [page]="filterParams.pageNumber"
+        [pageSize]="filterParams.pageSize"
+        [total]="totalNumberOfItems"
+        [length]="jobsList.length"
+      >
+      </app-table-info>
+      </div>
+    </div>
+  
+    </div>
+
+      <!-- Modal -->
+  <div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+        >
+          <i class="fas fa-plus"></i> اضافه 
+        </h5>
+
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-12 col-sm-6 ">
+              <label> الوظيفة
+              </label>
+              <input
+                class="form-control"
+                #Name="ngModel"
+                [(ngModel)]="jobs.Name"
+              >
+            </div>
+          </div> 
+
+
+        </div>
+
+
+
+        <div
+          class="row mt-5 wow zoomin"
+          data-wow-duration="1.5s"
+          data-wow-delay=".7s"
+        >
+          <div class="col-md-3 col-sm-12 mx-auto">
+            <button
+              class="btn bg-add text-title btn-block display-4"
+              (click)="save()"
+              type="button"
+            >
+              <b>حفظ <i class="far fa-save"></i></b>
+            </button>
+
+
+          </div>
+
+
+          <div class="col-md-3 col-sm-12 mx-auto">
+
+            <button
+              type="button"
+              class="btn bg-cancel text-title btn-block display-4"
+              data-dismiss="modal"
+            > <b>اغلاق <i class="far fa-window-close"></i></b> </button>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<!--end add-->
+<div
+  class="modal fade"
+  id="basicExampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+  >
+
+    >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+        >
+          <i class="fas fa-edit"></i> تعديل
+
+        </h5>
+
+      </div>
+      <div class="modal-body">
+
+
+        <div class="modal-body">
+       
+          <div class="row">
+           <div class="form-group col-md-12 col-sm-6 ">
+              <label> الوظيفة
+              </label>
+              <input
+                class="form-control"
+                #Name="ngModel"
+                [(ngModel)]="jobs.Name"
+              >
+
+
+            </div>
+          </div> 
+
+        </div>
+
+
+
+        <div
+          class="row"
+        >
+          <div class="col-md-3 col-sm-12 mx-auto">
+            <button
+              class="btn bg-add text-title btn-block display-4"
+              (click)="saveedit()"
+              type="button"
+            >
+              <b>حفظ <i class="far fa-save"></i></b>
+            </button>
+
+
+          </div>
+
+
+          <div class="col-md-3 col-sm-12 mx-auto">
+
+            <button
+              type="button"
+              class="btn bg-cancel text-title btn-block display-4"
+              data-dismiss="modal"
+            > <b>اغلاق <i class="far fa-window-close"></i></b> </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+

@@ -1,0 +1,491 @@
+<div class="row">
+  <div class="row my-2 bg-space p-1 pt-3 pl-4 mb-5 w-100">
+    <h2 class="lead text-title h1 ">
+      الــــــوارد العـــــــــــام
+
+    </h2>
+  </div>
+</div>
+
+<section id="tabs">
+  <div class="container">
+      
+
+      <div class="row">
+          <div
+              class="nav nav-tabs nav-fill col-12"
+              id="nav-tab"
+              role="tablist"
+          >
+              <a
+                  class="nav-item nav-link active col-12 text-space"
+                  data-toggle="tab"
+                  role="tab"
+                  aria-controls="nav-home"
+                  aria-selected="true"
+                  (click)="title = 'إعدادات التعاملات'; page = 1 "
+              > إعدادات  </a>
+              <a
+                  class="nav-item nav-link col-12 text-space"
+                  data-toggle="tab"
+                  role="tab"
+                  aria-controls="nav-profile"
+                  aria-selected="false"
+                  (click)="title = 'إعدادات الأجازات'; page = 2;"
+              > scanner </a>
+             
+
+          </div>
+
+
+      </div>
+  </div>
+</section>
+
+<form name="form"
+  #form="ngForm">
+
+  <div class="row">
+    <div class="form-group col-md-2 col-sm-6 ">
+      <label> رقــم المعاملة
+      </label>
+      <input type="text"
+        class="form-control disabled-input"
+        name="DocNo"
+        [(ngModel)]="trxIn.DocNo"
+        #DocNo="ngModel" />
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+      <label> تاريخ المعاملة الوارده <sup class="text-danger"><i class="fas fa-asterisk"></i></sup> </label>
+      <gregorian-hijri-calendar #Date
+        [gDate]="trxIn.TrxDate"
+        [disabled]="false"
+        [submitted]="formSubmitted"
+        [isRequired]="true"
+        [hidden]="false"
+        (onSelect)="selectDate($event)">
+      </gregorian-hijri-calendar>
+      <input class="form-control"
+        [value]="trxIn.TrxDate|appDate"
+        readonly
+        style="display: none;" />
+        <div class="text-danger droid-font mt-1"
+            *ngIf="Date.invalid && formSubmitted">
+            <p>هذا الحقل مطلوب</p>
+          </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+      <label>نوع الـــوارد <sup class="text-danger"><i class="fas fa-asterisk"></i></sup></label>
+      <app-dropdown-list #type
+        idField="ID"
+        textField="Name"
+        pageSize="7"
+        [submitted]="formSubmitted"
+        palceholder="اختر نوع الـــوارد"
+        [list]="docTypeList"
+        [isRequired]="true"
+        [isReadonly]="false"
+        [busyLoading]="busyLoadingDocType"
+        (onSelect)="selectDocumentType($event)">
+      </app-dropdown-list>
+      <div class="text-danger droid-font mt-1"
+        *ngIf="type.invalid && formSubmitted">
+        <p>هذا الحقل مطلوب</p>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="row">
+        <div class="col-10">
+          <label> أولوية الـــوارد  <sup class="text-danger"><i class="fas fa-asterisk"></i></sup></label>
+          <app-dropdown-list
+          #Piority
+           idField="ID"
+            textField="Name"
+            pageSize="7"
+            [submitted]="formSubmitted" 
+            palceholder="الاولويه"
+            [list]="docPiorityList"
+            [isRequired]="true"
+            [isReadonly]="false"
+            [busyLoading]="busyLoadingDocpPiority"
+            (onSelect)="selectDocPriority($event)">
+          </app-dropdown-list>
+          <div class="text-danger droid-font mt-1"
+            *ngIf="Piority.invalid && formSubmitted">
+            <p>هذا الحقل مطلوب</p>
+          </div>
+        </div>
+        <div class="col-2 mt-4">
+          <!-- Button trigger modal -->
+          <i class="fas fa-plus-circle mt-3 h4 text-space"
+            data-toggle="modal"
+            data-target="#exampleModal"></i>
+
+        </div>
+      </div>
+
+
+
+      <!-- Modal -->
+      <div class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog"
+          role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-space text-title">
+              <h5 class="modal-title"
+                id="exampleModalLabel">أضف عدد ايام</h5>
+              <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <div class="row">
+                <div class="form-group col-md-12 ">
+                  <label> عدد الايام
+                  </label>
+                  <input type="number"
+                    required
+                    min="1"
+                    class="form-control disabled-input"
+                    name="DocNo"
+                    [(ngModel)]="docPiority.NoDays"
+                    #NoDays="ngModel" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-12">
+                  <label for="">الاهميه</label>
+                  <select required
+                    #Name="ngModel"
+                    class="form-control"
+                    name="Name"
+                    [(ngModel)]="docPiority.Name">
+                    <option></option>
+                    <option value="عاجل"> عاجل</option>
+                    <option value="عادي"> عادي</option>
+
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer bg-space ">
+              <button type="button"
+                (click)="addDocPriority(Name.invalid,NoDays.invalid)"
+                [disabled]="busyLoadingDocpPiority"
+                class="btn btn-primary">حفظ</button>
+              <button type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal">الغاء</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="form-group col-md-2 col-sm-6 "
+      >
+      <label> طريـقة الاســـتلام <sup class="text-danger"><i class="fas fa-asterisk"></i></sup></label>
+      <select class="form-control"
+      #TrxDeliveryTypeID="ngModel"
+        name="TrxDeliveryTypeI "
+        [ngClass]="{'is-invalid': (TrxDeliveryTypeID.invalid && formSubmitted) || (TrxDeliveryTypeID.invalid && (TrxDeliveryTypeID.dirty || TrxDeliveryTypeID.touched))}"
+        required
+        [(ngModel)]="trxIn.TrxDeliveryTypeID ">
+        <option [value]="1">بالبريد</option>
+        <option [value]="2">بالفاكس</option>
+        <option [value]="3">باليد</option>
+        <option [value]="4">ايميل</option>
+      </select>
+      <div class="text-danger droid-font mt-1"
+            *ngIf="TrxDeliveryTypeID.invalid && formSubmitted">
+            <p>هذا الحقل مطلوب</p>
+          </div>
+    </div>
+
+    <div class="form-group col-md-3 col-sm-6 ">
+      <label>  الموضـــوع <sup class="text-danger"><i class="fas fa-asterisk"></i></sup> </label>
+      <input type="text"
+        class="form-control disabled-input"
+        name="Subject"
+        required
+        [ngClass]="{'is-invalid': (Subject.invalid && formSubmitted) || (Subject.invalid && (Subject.dirty || Subject.touched))}"
+        [(ngModel)]="trxIn.Subject"
+        #Subject="ngModel" />
+      <div class="text-danger droid-font mt-1"
+        *ngIf="Subject.invalid && formSubmitted">
+        <p>هذا الحقل مطلوب</p>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+      <div class="row">
+        <div class="col-10">
+          <label> واردة مـــن <sup class="text-danger"><i class="fas fa-asterisk"></i></sup></label>
+          <app-dropdown-list
+            #inCome
+            idField="ID"
+            textField="Name"
+            [submitted]="formSubmitted"
+            pageSize="7"
+            palceholder="اختر جهه خارجيه"
+            [list]="outSideList"
+            [isRequired]="true"
+            [isReadonly]="false"
+            [busyLoading]="busyLoadingOutSide"
+            (onSelect)="selectOutSide($event)">
+          </app-dropdown-list>
+          <div class="text-danger droid-font mt-1"
+            *ngIf="inCome.invalid && formSubmitted">
+            <p>هذا الحقل مطلوب</p>
+          </div>
+        </div>
+        <div class="col-2 mt-4">
+          <!-- Button trigger modal -->
+          <i class="fas fa-plus-circle mt-3 h4 text-space"
+            data-toggle="modal"
+            data-target="#Modal"></i>
+          <!-- Modal -->
+          <div class="modal fade"
+            id="Modal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog"
+              role="document">
+              <div class="modal-content">
+                <div class="modal-header bg-space text-title">
+                  <h5 class="modal-title"
+                    id="exampleModalLabel">أضف جهه خارجية جديدة</h5>
+                  <button type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <div class="row">
+                    <div class="form-group col-md-12 ">
+                      <label> اســـــم الجهــه </label>
+                      <input type="text"
+                        required
+                        class="form-control disabled-input"
+                        name="DocNo"
+                        [(ngModel)]="outSide.Name"
+                        #out="ngModel" />
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer bg-space ">
+                  <button type="button"
+                    (click)="addOutside(out.invalid)"
+                    [disabled]="busyLoadingDocpPiority"
+                    class="btn btn-primary">حفظ</button>
+                  <button type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal">الغاء</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6" *ngIf="isHide">
+      <label> واردة الــي <sup class="text-danger"><i class="fas fa-asterisk"></i></sup> </label>
+      <app-dropdown-list #toDepartment
+        idField="DepartmentID"
+        textField="DepartmentName"
+        pageSize="7"
+        [submitted]="formSubmitted"
+        palceholder="اختر القسم "
+        [list]="departmentList"
+        [isRequired]="true"
+        [isReadonly]="false"
+        [busyLoading]="busyLoadingDepartment"
+        (onSelect)="selectDepartment($event)">
+      </app-dropdown-list>
+      <div class="text-danger droid-font mt-1"
+        *ngIf="toDepartment.invalid && formSubmitted">
+        <p>هذا الحقل مطلوب</p>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="form-group col-md-3 col-sm-6 ">
+      <label>  عدد المرفقات
+
+      </label>
+      <input type="text"
+        class="form-control disabled-input"
+        name="AttachmentsNo"
+        [(ngModel)]="trxIn.AttachmentsNo"
+        #AttachmentsNo="ngModel" />
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+      <label>رقم الدرج </label>
+      <app-dropdown-list #Dorj
+        idField="DrajID"
+        textField="DrajID"
+        pageSize="7"
+        palceholder="اختر الدرج "
+        [submitted]="formSubmitted"
+        [list]="drawerList"
+        [isRequired]="true"
+        [isReadonly]="false"
+        [busyLoading]="busyLoadingDrawer"
+        (onSelect)="selectDrawer($event)">
+      </app-dropdown-list>
+      
+    </div>
+
+    <div class="form-group col-md-6 col-sm-12 ">
+      <label>  ملاحظات
+      </label>
+      <input type="text"
+        class="form-control disabled-input"
+        name="Notes"
+        required
+        [(ngModel)]="trxIn.Notes"
+        #Notes="ngModel" />
+      
+    </div>
+
+    
+
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-6 col-sm-6" *ngIf="isHide">
+      <label>صـــورة إلـى </label>
+      <app-dropdown-list #out
+        idField="DepartmentID"
+        textField="DepartmentName"
+        pageSize="7"
+        palceholder="اختر القسم "
+        [submitted]="formSubmitted"
+        [list]="departmenForCopiestList"
+        [isRequired]="true"
+        [isReadonly]="false"
+        [busyLoading]="busyLoadingForCopiesDepartment"
+        (onSelect)="selectCopiesDepartment($event)">
+      </app-dropdown-list>
+      <div class="chosen-container chosen-container-multi chosen-rtl chosen-with-drop chosen-container-active">
+        <ul
+            *ngIf="departmenForCopiestListShadow.length > 0 "
+            class="chosen-choices"
+        >
+            <li
+                *ngFor="let item of departmenForCopiestListShadow; let i=index"
+                class="bg-space search-choice text-title m-2"
+            > <i
+                    class="fas fa-times px-1"
+                    (click)="deleteCopiesDepartment(i)"
+                ></i>{{item.DepartmentName}}</li>
+        </ul>
+    </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6 mt-4">
+      <div class="form-check">
+          <input
+              class="form-check-input"
+              type="checkbox"
+              name="CopyToAllDepartments"
+              [(ngModel)]="trxIn.CopyToAllDepartments"
+          >
+          <label class="form-check-label ">
+            نسخة لجميع الأقسام
+          </label>
+      </div>
+  </div>
+    <div class="col-md-3 col-sm-6 mt-4" *ngIf="isHide">
+      <div class="form-check">
+          <input
+              class="form-check-input"
+              type="checkbox"
+              name="Generalize"
+              [(ngModel)]="trxIn.Generalize"
+          >
+          <label class="form-check-label ">
+            تعميم
+          </label>
+      </div>
+  </div>
+
+
+
+  </div>
+
+
+
+<div class="row bg-section">
+  <h4 class="text-title p-1">بيانات صاحب المعاملة</h4>
+</div>
+
+<div class="row mt-3">
+  <div class="form-group col-md-4 col-sm-6 ">
+    <label> رقم الهوية 
+
+    </label>
+    <input type="text"
+      class="form-control disabled-input"
+      name="NationaNo"
+      required
+      [(ngModel)]="trxIn.NationaNo"
+      #NationaNo="ngModel" />
+  </div>
+  <div class="form-group col-md-4 col-sm-6 ">
+    <label>  رقم الجوال 
+
+    </label>
+    <input type="text"
+      class="form-control disabled-input"
+      name="Mobile"
+      required
+      [(ngModel)]="trxIn.Mobile"
+      #Mobile="ngModel" />
+  </div>
+  <div class="form-group col-md-4 col-sm-6 ">
+    <label> اسم صاحب المعاملة 
+
+    </label>
+    <input type="text"
+      class="form-control disabled-input"
+      name="CustomerName"
+      required
+      [(ngModel)]="trxIn.CustomerName"
+      #CustomerName="ngModel" />
+  </div>
+</div>
+
+<div class="row my-2">
+  <div class="col-md-4 col-sm-12 mx-auto">
+    <button type="button" (click)="save(Piority.invalid, type.invalid , inCome.invalid,Date.invalid)" class="btn btn-primary btn-lg btn-block">متابعه الي شاشه الرشفه</button>
+  </div>
+</div>
+
+</form>

@@ -1,0 +1,227 @@
+ <nav id="navbar" class="push better-nav bg-space fixed-top">  
+<div class="main-container ace-save-state hideOnsmallScreen" id="main-container">
+  <div id="sidebar" class="sidebar h-sidebar navbar-collapse ace-save-state sidebar-relative lower-highlight collapse show">
+    <ul class="nav nav-list">
+      <li class="baladyaName">
+        <a [routerLink]="['/pages/home']"><div class="logo" class="text-warning">
+          <img
+          src="../../../../assets/images/logo_maker_design_app03.png"
+          width="50"
+          height="50"
+          alt="logo image"
+        > <strong>التعاملات الإلكترونيه</strong>
+        </div></a>
+          
+        </li>
+
+          <div class="body" >
+            <ul class="bg-space navigator">
+              <li class="blog bg-title-hover  dropdown  navigator-li"  *ngFor="let item of menuParent;let i =index">
+                <a class="text-title"> {{item.ParentCaption}}</a>
+
+                <ul class="bg-space navigator">
+                  <li class="blog dropdown  bg-title-hover navigator-li" (click)="theame()"  [routerLink]="[ '/pages/'+item.MeduleName+'/'+chield.URL ]"
+                  *ngFor="let chield of menuChildren[i]"><a  class="text-title"
+                  >{{chield.Caption}}</a>
+                </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <li class="ml-auto">
+            <div class="noti ">  
+              <span class="badge " (click)="showHideNotiefication()"><span class="p-1 px-2 bg-danger radius">{{notificationList.length}}</span><i class="far fa-bell h3 mt-2  "></i></span>
+            <div class="noti" >  
+              <div class="notification-container "  *ngIf="isVisable">
+                <div class="row mx-auto" *ngFor="let item of notificationList; let i=index">
+                  <div class="d-flex notify w-100">
+                    <div class=" ">
+                      <p class="pt-1 pl-1 h6 text-center text-dark">{{item.Message}}</p>
+                    </div>
+                    <div class="ml-auto">
+                      <a  (click)="showHideNotiefication()"  [routerLink]="[item.Url]" class=" text-space"> <i class="fa fa-arrow-circle-left mt-2 h3 mr-2"></i></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  </div>
+</li>
+
+          
+    </ul>
+    
+
+  <div class="toggle">
+    <input id="hamburger" class="hamburger" type="checkbox"/>
+    <label class="hamburger" for="hamburger">
+      <i></i>
+      <div class="text">
+      </div>
+    </label>
+   <div class="drawer-list">
+         <ul>
+          <li  *ngFor="let item of menuParent;let i =index">
+            <a class="list" > {{item.ParentCaption}}</a>  
+            <ul>
+              <li  [routerLink]="[ '/pages/'+item.MeduleName+'/'+chield.URL ]"
+              *ngFor="let chield of menuChildren[i]"><a
+              >{{chield.Caption}}</a>
+            </li>
+            </ul>
+          </li>
+        </ul>
+   </div>
+</div>
+  </div>
+</div>
+ </nav>  
+
+  
+
+     <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+      <a
+        class="navbar-brand ocean text-danger display-4"
+        [routerLink]="[ '/pages/home' ]"
+      >  <img
+          src="../../../../assets/images/logo_maker_design_app03.png"
+          width="50"
+          height="50"
+          alt="logo image"
+        >التعاملات الإلكترونيه</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div
+        class="collapse navbar-collapse"
+        id="navbarSupportedContent"
+      >
+      <div class=" container ">
+        <nav>
+                <ul class="mcd-menu">
+                    <li class="nav-item dropdown"
+                    *ngFor="let item of menuParent;let i =index">
+                        <a  class="active">
+                            <strong> {{item.ParentCaption}}
+                            </strong>
+                        </a>
+                        <ul>
+                            <li>
+                                <a class="dropdown-item text-white mt-2 p-2"
+                                [routerLink]="[ '/pages/'+item.MeduleName+'/'+chield.URL ]"
+                                *ngFor="let chield of menuChildren[i]"
+                              >{{chield.Caption}}</a>
+                            
+                            </li>
+                        </ul>
+                    </li> 
+                    
+
+                </ul>
+            </nav>
+        </div>
+      </div>
+     </nav>  -->
+    
+     <nav class="main-menu bg-space">
+      <ul class="text-right">
+        <li class="text-center mt-10">
+          <img [src]="image" width="100" height="100" style="border-radius: 50px;">
+        </li>
+          <li>
+              <h6 class="text-center my-2 user"> <strong  class="text-title">{{user.UserFullName}} </strong></h6>
+          </li>
+
+          <li>
+              <a [routerLink]="[ '/home' ]"  >
+                  <i class="fa fa-home fa-2x text-title"></i>
+                  <span class="nav-text text-title">
+                      الرئيسيه
+                  </span>
+              </a>
+            
+          </li>
+
+          <li class="has-subnav">
+            <a (click)="navigateToProfile()" >
+              <i class="fa fa-address-card  fa-2x text-title"></i>
+              <span class="nav-text text-title">
+                الملف الشخصي
+                </span>
+            </a>
+            
+        </li>
+
+
+          <li class="has-subnav">
+              <a >
+                  <i class="fa fa-laptop fa-2x text-title"></i>
+                  <span class="nav-text text-title" data-toggle="modal" data-target=".bd-example-modal-lg">
+                   شكل الموقع
+                  </span>
+              </a> 
+          </li>
+
+
+          <li>
+            <a (click)="logOut()">
+                  <i class="fa fa-power-off fa-2x text-title"></i>
+                 <span class="nav-text text-title">
+                     تسجيل الخروج
+                 </span>
+             </a>
+         </li>
+      </ul>
+    
+      <ul class="logout">
+            
+      </ul>
+    </nav>
+
+    <!-- Large modal -->
+
+<div class="modal fade bd-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content content">
+      <div class="row bg-spase my-3">
+          <div class="col-md-12">
+            <h1 class="text-space text-center">اختر الهيئه المفضله لك</h1>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 text-center ">
+          <img src="../../../../assets/images/dragon2.png"(click)="changeColor('dragon')" alt="dragon" class="pointer" width="120" height="120">
+          <p class="lead text-center pointer text-space h5" (click)="changeColor('dragon')">DRAGON</p>
+        </div>
+        <div class="col-md-2 text-center ">
+          <img src="../../../../assets/images/wolf.png"(click)="changeColor('wolf')" alt="wolf" class="pointer" width="120" height="120">
+          <p class="lead text-center pointer text-space h5" (click)="changeColor('wolf')">WOLF</p>
+        </div>
+        <div class="col-md-3 text-center ">
+          <img src="../../../../assets/images/panther_logo_drbl.png"(click)="changeColor('panther')" alt="panther" class="pointer" width="120" height="120">
+          <p class="lead text-center pointer text-space h5" (click)="changeColor('panther')">PANTHER</p>
+        </div>
+        <div class="col-md-2 text-center ">
+          <img src="../../../../assets/images/pigeon_logo.png"(click)="changeColor('pigeon')" alt="pigeon" class="pointer" width="120" height="120">
+          <p class="lead text-center pointer text-space h5" (click)="changeColor('pigeon')">PIGEON</p>
+        </div>
+        <div class="col-md-2 text-center ">
+          <img src="../../../../assets/images/eagle.png"(click)="changeColor('eagle')" alt="eagle" class="pointer" width="120" height="120">
+          <p class="lead text-center pointer text-space h5" (click)="changeColor('eagle')">EAGLE</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+  

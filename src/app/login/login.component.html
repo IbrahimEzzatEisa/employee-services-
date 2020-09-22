@@ -1,0 +1,84 @@
+<div class="parent-container ">
+    <div class="container-fluid ">
+        <div class="">
+
+            <div class=" p-2">
+                <div class="row">
+                    <div class="col-md-7 col-sm-12"> </div>
+                    <div class="col-md-5 col-sm-12">
+                        <span class=" text-left mt-5 mb-5 display-3 loign-dropshadow ocean text-dark ">خدمات موظف
+                            <img src="../../assets/images/logo_maker_design_app03.png"
+                            height="75"
+                            width="75"
+                            >
+                        </span>
+                    </div>
+
+                </div>
+                <form #form="ngForm">
+                    <div class="row mt-5">
+                        <div class="col-md-7 col-sm-12"> </div>
+                        <div class="col-md-3 col-sm-12 form-box">
+                            <h3 class=" my-sm-3 mb-3  text-center mt-5 ocean text-white mt-3">تسجيل الدخول</h3>
+                            <form class="login-form app-form">
+                                <div class="control mt-3">
+                                    <input
+                                        class="app-input"
+                                        type="text"
+                                        #id="ngModel"
+                                        name="username"
+                                        [(ngModel)]="userId"
+                                        required
+                                    />
+                                    <span></span>
+                                    <label class="app-label">اسم المستخدم</label>
+                                </div>
+                                <div class="control">
+                                    <input
+                                        class="app-input"
+                                        type="password"
+                                        #password="ngModel"
+                                        name="password"
+                                        [(ngModel)]="userPassword"
+                                        required
+                                    />
+                                    <span></span>
+                                    <label class="app-label">كلمة المرور</label>
+                                </div>
+
+
+
+                                <div class="col-12 text-center mt-4">
+                                    <button
+                                        type="button"
+                                        class="btn btn-success btn--animated"
+                                        type="submit"
+                                        (click)="login()"
+                                        [disabled]="form.invalid"
+                                    >
+                                        تسجيل الدخول
+                                    </button>
+                                </div>
+                                <div class="col-12 text-right mt-4">
+                                    <label class="h6 text-white">تذكر كلمة المرور <input
+                                            name="rememberMe"
+                                            type="checkbox"
+                                            [(ngModel)]="isRememberMeChecked"
+                                        ></label>
+
+
+
+
+
+
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

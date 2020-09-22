@@ -1,0 +1,162 @@
+<div
+    class="row bg-space pt-3  w-100 wow fadeIn"
+    data-wow-duration="1.5s"
+    data-wow-delay="1s"
+>
+
+    <div class="col-md-4">
+        <div class="input-group bs-default mb-3 ">
+            <!-- <i
+                class="fas fa-plus mr-3 mt-1 pointer text-title h4 d-inline"
+                (click)="openVerticallyCentered(content)"
+            ></i> -->
+
+            <input [disabled]="isSearch"
+                #search="ngModel"
+                [(ngModel)]="searchval"
+                type="text"
+                class="form-control"
+                placeholder="بحث..."
+                name="search"
+                (keydown.enter)="searchValue()"
+            >
+            <!-- <div class="input-group-append ">
+                <span class="input-group-text  "><i class="text-primary fas fa-search"></i>
+                    <i
+                        *ngIf="filterParams.searchValue"
+                        (click)="removeSearch()"
+                        class="text-danger fa fa-times clickable"
+                    >
+                    </i></span>
+            </div> -->
+        </div>
+    </div>
+    <div class="col-md-7"></div>
+
+    <div class="col-md-1 ml-0 pl-0 mb-2">
+        <div class="row">
+            <div class="col-6  ">
+                <div class="dropdown">
+                    <button
+                        class="btn bg-title dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        {{filterParams.pageSize}}
+                    </button>
+                    <div
+                        class="dropdown-menu "
+                        aria-labelledby="dropdownMenuButton"
+                    >
+                        <a
+                            class="dropdown-item theme-dropdown"
+                            (click)="setPageSize(10)"
+                        ><b>10</b></a>
+                        <a
+                            class="dropdown-item theme-dropdown"
+                            (click)="setPageSize(20)"
+                        ><b>20</b>
+                        </a>
+                        <a
+                            class="dropdown-item theme-dropdown"
+                            (click)="setPageSize(30)"
+                        ><b>30</b></a>
+                        <a
+                            class="dropdown-item theme-dropdown"
+                            (click)="setPageSize(40)"
+                        ><b>40</b></a>
+                        <a
+                            class="dropdown-item theme-dropdown"
+                            (click)="setPageSize(50)"
+                        ><b>50</b></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row w-100">
+    <table class="table table-striped">
+        <thead class="">
+            <tr  class="bg-space">
+                <td class="text-center" *ngFor="let title of titleArray; let i=index">{{title}}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+                *ngFor="let item of list; let i=index "
+                class="wow slideInLeft"
+            >
+                <td *ngFor="let prop of properties">{{item[prop]}}</td>
+                <td *ngIf="isChoices">
+                    <button
+                        *ngIf="choices.delete"
+                        class="delete-btn mx-1"
+                        title="حذف "
+                        (click)="deleteItem(item)"
+                    ><i class="far fa-trash-alt delete-button"
+                    [title]="title.file"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="file mx-1"
+                        *ngIf="choices.file"
+                        (click)="rowEmit(item)"
+                    >
+                        <i class="text-title fas fa-file-alt h5"
+                        [title]="title.file"></i></button>
+                    <button
+                        type="button"
+                        class="file mx-1"
+                        *ngIf="choices.dish"
+                        (click)="rowDish(item)"
+                    >
+                    <i class="fas fa-satellite-dish text-warning h5" 
+                    [title]="title.dish"></i></button>
+                    <button
+                        type="button"
+                        class="file mx-1"
+                        *ngIf="choices.marker"
+                        (click)="rowMarker(item)"
+                        
+                    >
+                    <i class="fas fa-marker text-info h5" [title]="title.marker"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row text-center  w-100" *ngIf="list.length >= 1">
+        <div class="col-md-5 col-sm-9 ml-3">
+            <app-pagination
+                *ngIf="totalNumberOfPages && !(totalNumberOfPages==1)"
+                [page]="filterParams.pageNumber"
+                [size]="totalNumberOfPages"
+                (onChange)="changePageNumber($event)"
+            >
+            </app-pagination>
+        </div>
+        <div class="col-md-6 col-sm-3   ml-auto">
+            <app-table-info
+                [page]="filterParams.pageNumber"
+                [pageSize]="filterParams.pageSize"
+                [total]="totalNumberOfItems"
+                [length]="list.length"
+            >
+            </app-table-info>
+        </div>
+    </div>
+</div>
+<div
+    class="row"
+    *ngIf="!(list.length >= 1)"
+>
+    <div class="col-md-12">
+        <h1 class="display-3">لا يوجد بيانات حسب الخيارات المدخله</h1>
+    </div>
+</div>

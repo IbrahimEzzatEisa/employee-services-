@@ -1,0 +1,358 @@
+<div class="app-page padding-tb-20">
+    <div class="page-width page-container">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="row my-2 bg-space p-1 pt-3 pl-4 mb-5 w-100">
+            <h2 class="lead text-title h1 ">
+                الــــــصـــادر العـــــــــــام الســرى 
+ 
+            </h2>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <div class="container-fluid">
+
+
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">المعاملة غير مكتملة</h4>
+                    <p> <strong> <span> 
+                        <i class="fas fa-exclamation"></i>
+                    </span> تنبيه : </strong> لن يتم حفظ المعاملة الا بعد الأرشفة</p>
+                  </div>
+
+              <form
+                name="form"
+                #form="ngForm"
+                class="master-form"
+              >
+                <div class="form-row">
+
+                    
+          
+                  <div class="form-group col-md-3 col-sm-6 ">
+                    <label> تاريخ الصـــادر
+                    </label>
+                    <input
+                      class="form-control disabled-input"
+                      readonly
+                    />
+    
+                  </div>
+
+                  <div class="form-group col-md-3 col-sm-6 ">
+                    <label> رقم الوارد للتصدير 
+                    </label>
+                    <input
+                      class="form-control disabled-input"
+                          />
+                  </div>
+
+
+                  <div class="form-group col-md-3 col-sm-6 ">
+                    <label> السنة 
+                    </label>
+                    <input
+                      class="form-control disabled-input"
+                          />
+                  </div>
+
+                  <div
+                  class="form-group col-md-2 col-sm-6 "
+                >
+                  <label>  نوع الصـــادر 
+                  </label>
+                  <!-- <app-dropdown-list
+                    #AlternativeUser
+                    idField="UserID"
+                    textField="UserFullName"
+                    pageSize="7"
+                    palceholder=" "
+                    [list]="alternatives"
+                    [selectedItemId]="vacApplication.AlternativeUserID"
+                    [busyLoading]="dropdownsLoading"
+                    (onSelect)="SelectUserAternative($event)"
+                  >
+                  </app-dropdown-list> -->
+                </div>
+
+         
+                </div>
+                <div class="form-row">
+        
+                  <div class="form-group col-md-4 col-sm-6 ">
+                    <label> الموضـــوع 
+                    </label>
+                    <input
+                      class="form-control" 
+                      >
+                  </div>
+
+                  <div
+                  class="form-group col-md-3 col-sm-6 "
+                >
+                  <label>   صـــادر مـــن 
+                  </label>
+                  <!-- <app-dropdown-list
+                    #AlternativeUser
+                    idField="UserID"
+                    textField="UserFullName"
+                    pageSize="7"
+                    palceholder=" "
+                    [list]="alternatives"
+                    [selectedItemId]="vacApplication.AlternativeUserID"
+                    [busyLoading]="dropdownsLoading"
+                    (onSelect)="SelectUserAternative($event)"
+                  >
+                  </app-dropdown-list> -->
+                </div>
+
+
+                <div
+                class="form-group col-md-3 col-sm-6 "
+              >
+                <label>  صـــادر إلـى
+                </label>
+                <!-- <app-dropdown-list
+                  #AlternativeUser
+                  idField="UserID"
+                  textField="UserFullName"
+                  pageSize="7"
+                  palceholder=" "
+                  [list]="alternatives"
+                  [selectedItemId]="vacApplication.AlternativeUserID"
+                  [busyLoading]="dropdownsLoading"
+                  (onSelect)="SelectUserAternative($event)"
+                >
+                </app-dropdown-list> -->
+              </div>
+
+                  <div class="col-md-2 text-center insert">
+                    <button
+                      class="btn bg-add text-title "
+                      data-toggle="modal"
+                      data-target="#exampleModal" 
+                      title="اضف خطاب"
+                    >  اضف خطاب <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+
+         
+
+                </div>
+
+
+                <div class="form-row">
+        
+               
+  
+                    <div
+                    class="form-group col-md-3 col-sm-6 "
+                  >
+                    <label>    صـــورة إلـى جهة 
+                    </label>
+                    <!-- <app-dropdown-list
+                      #AlternativeUser
+                      idField="UserID"
+                      textField="UserFullName"
+                      pageSize="7"
+                      palceholder=" "
+                      [list]="alternatives"
+                      [selectedItemId]="vacApplication.AlternativeUserID"
+                      [busyLoading]="dropdownsLoading"
+                      (onSelect)="SelectUserAternative($event)"
+                    >
+                    </app-dropdown-list> -->
+                  </div>
+  
+  
+                  <div
+                  class="form-group col-md-3 col-sm-6 "
+                >
+                  <label>   صـــورة إلـى قسم
+                  </label>
+                  <!-- <app-dropdown-list
+                    #AlternativeUser
+                    idField="UserID"
+                    textField="UserFullName"
+                    pageSize="7"
+                    palceholder=" "
+                    [list]="alternatives"
+                    [selectedItemId]="vacApplication.AlternativeUserID"
+                    [busyLoading]="dropdownsLoading"
+                    (onSelect)="SelectUserAternative($event)"
+                  >
+                  </app-dropdown-list> -->
+                </div>
+
+                <div
+                class="form-group col-md-3 col-sm-6 "
+              >
+                <label>   طريـقة التسـليم
+                </label>
+                <!-- <app-dropdown-list
+                  #AlternativeUser
+                  idField="UserID"
+                  textField="UserFullName"
+                  pageSize="7"
+                  palceholder=" "
+                  [list]="alternatives"
+                  [selectedItemId]="vacApplication.AlternativeUserID"
+                  [busyLoading]="dropdownsLoading"
+                  (onSelect)="SelectUserAternative($event)"
+                >
+                </app-dropdown-list> -->
+              </div>
+
+
+              
+
+              <div class="form-group col-md-3 col-sm-6 ">
+                <label> عدد المرفقات 
+                </label>
+                <input
+                  class="form-control" 
+                  >
+              </div>
+  
+       
+  
+  
+              
+                  </div>
+
+                    
+              <div class="form-row">
+
+                <div class=" col-md-12 wrapper">
+
+  
+                    <div class="profile-card js-profile-card">
+                      <div class="profile-card__img">
+                        <i class="fas fa-user-alt fa-9x" ></i>         
+                                 </div>
+                  
+                      <div class="profile-card__cnt js-profile-cnt">
+                        <div class="profile-card__name">بيانات صاحب المعاملة </div>
+                        <div class="form-row">
+        
+                            <div class="form-group col-md-4 col-sm-6 ">
+                              <label> اسم صاحب المعاملة 
+                              </label>
+                              <input
+                                class="form-control" 
+                                >
+                            </div>
+
+
+                            <div class="form-group col-md-4 col-sm-6 ">
+                                <label>  رقم الهوية 
+                                </label>
+                                <input
+                                  class="form-control" 
+                                  >
+                              </div>
+
+
+
+                              <div class="form-group col-md-4 col-sm-6 ">
+                                <label>   رقم الجوال   
+                                </label>
+                                <input
+                                  class="form-control" 
+                                  >
+                              </div>
+                        </div>
+    
+                  
+                      
+                  
+                
+                      </div>
+
+                  
+                    </div>
+                  
+                  </div>
+                  
+          
+              </div>
+
+                
+  
+                <div class="row w-100 mt-2">
+                  <div class="col-md-12 text-center">
+                    <button
+                      class="btn bg-add text-title "
+                      title="متابعة الى شاشة الأرشفة"
+                    ><i class="fa fa-archive fa-1x"></i>
+                    متابعة الى شاشة الأرشفة  
+  
+                    </button>
+                  </div>
+                </div>
+  
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!--modal-->
+
+  <div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true" >
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel" >
+          <i class="fas fa-plus"></i> اضافه
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+      
+
+ 
+
+
+
+        </div>
+        <div
+          class="row mt-5 zoomin"
+          data-wow-duration="1.5s"
+          data-wow-delay=".7s" >
+          <div class="col-md-3 col-sm-12 mx-auto">
+            <button
+              class="btn bg-add text-title btn-block display-4"
+              type="button" >
+              <b>حفظ <i class="far fa-save"></i></b>
+            </button>
+          </div>
+          <div class="col-md-3 col-sm-12 mx-auto">
+            <button
+              type="button"
+              class="btn bg-cancel text-title btn-block display-4"
+              data-dismiss="modal"
+            > <b>اغلاق <i class="far fa-window-close"></i></b> </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,387 @@
+
+<div >
+    <form
+    name="form"
+    #form="ngForm"
+>
+
+
+<div class="row my-2 bg-space p-1 pt-3 pl-4 mb-5">
+    <app-page-title
+      super=" إعدادات النظام"
+      section=" إدارة صلاحيات المستخدم"
+      [title]="isAdd?'اضافه':'تعديل'"
+    ></app-page-title>
+  </div>
+    <div class="row zoomIn" data-wow-duration="1.5s" data-wow-delay=".7s">
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> الاسم</label>
+                <input
+                    #UserFullName="ngModel"
+                    class="form-control"
+                    name="UserFullName"
+                    autocomplete="off"
+                    type="text"
+                    required
+                    [readonly]="isAdmin"
+                    [ngClass]="{'is-invalid': formSubmitted && UserFullName.invalid || (UserFullName.invalid && (UserFullName.dirty || UserFullName.touched))}"
+                    [(ngModel)]="user.UserFullName"
+                >
+                <div class="text-danger"
+                    *ngIf="UserFullName.invalid && formSubmitted">
+                    <p>هذا الحقل مطلوب</p>
+                  </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label>البريد الإلكترونى</label>
+                <input
+                    #Email="ngModel"
+                    class="form-control"
+                    name="email"
+                    autocomplete="off"
+                    [readonly]="isAdmin"
+                    type="email"
+                    [ngClass]="{'is-invalid': formSubmitted && Email.invalid || (Email.invalid && (Email.dirty || Email.touched))}"
+                    [(ngModel)]="user.Email"
+                >
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> اسم المستخدم</label>
+                <input
+                    #Username="ngModel"
+                    class="form-control"
+                    name="Username"
+                    autocomplete="off"
+                    required
+                    [readonly]="isAdmin"
+                    type="text"
+                    [ngClass]="{'is-invalid': formSubmitted && Username.invalid || (Username.invalid && (Username.dirty || Username.touched))}"
+                    [(ngModel)]="user.Username"
+                >
+
+                <div class="text-danger"
+                    *ngIf="Username.invalid && formSubmitted">
+                    <p>هذا الحقل مطلوب</p>
+                  </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row zoomIn" data-wow-duration="1.5s" data-wow-delay=".7s">
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> كلمة المرور</label>
+                <input
+                    #Password="ngModel"
+                    class="form-control"
+                    name="Password"
+                    autocomplete="off"
+                    type="password"
+                    [ngClass]="{'is-invalid': formSubmitted && Password.invalid || (Password.invalid && (Password.dirty || Password.touched))}"
+                    [(ngModel)]="user.Password"
+                    required
+                >
+                <div class="text-danger"
+                    *ngIf="Password.invalid && formSubmitted">
+                    <p>هذا الحقل مطلوب</p>
+                  </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> صلاحية المستخدم</label>
+                <app-dropdown-list
+            #PerGroupID
+            idField="PerGroupID"
+            textField="PerGroupName"
+            pageSize="7"
+            palceholder="الصلاحيه"
+            [list]="PerGroupList"
+            [selectedItemId]="user.PerGroupID"
+            [isRequired]="true"
+            [isReadonly]="isAdmin"
+            [busyLoading]="busyLoadingPerGroup"
+            (onSelect)="SelectPerGroup($event)" 
+          >
+          </app-dropdown-list>
+          <div class="text-danger"
+                    *ngIf="PerGroupID.invalid && formSubmitted">
+                    <p>هذا الحقل مطلوب</p>
+                  </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> الإدارة/القسم</label>
+                <app-dropdown-list
+                #DepartmentID
+                idField="DepartmentID"
+                textField="DepartmentName"
+                pageSize="7"
+                palceholder="الإدارة"
+                [list]="DepartmentList"
+                [selectedItemId]="user.DepartmentID"
+                [isRequired]="true"
+                [isReadonly]="isAdmin"
+                [busyLoading]="busyLoadingDepartment"
+                (onSelect)="SelectDepartment($event)" 
+              >
+              </app-dropdown-list>
+              <div class="text-danger"
+                    *ngIf="DepartmentID.invalid && formSubmitted">
+                    <p>هذا الحقل مطلوب</p>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row zoomIn " data-wow-duration="1.5s" data-wow-delay=".7s">
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label> العدد الأقصي للمتقدمين علي اذن</label>
+                <input
+                    #VacNo="ngModel"
+                    class="form-control"
+                    name="VacNo"
+                    autocomplete="off"
+                    type="number"
+                    [readonly]="isAdmin"
+                    [ngClass]="{'is-invalid': formSubmitted && VacNo.invalid || (VacNo.invalid && (VacNo.dirty || VacNo.touched))}"
+                    [(ngModel)]="user.VacNo"
+                >
+                
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label> الهــاتف</label>
+                <input
+                    #Phone="ngModel"
+                    class="form-control"
+                    name="Phone"
+                    autocomplete="off"
+                    [readonly]="isAdmin"
+                    type="number"
+                    [ngClass]="{'is-invalid': formSubmitted && Phone.invalid || (Phone.invalid && (Phone.dirty || Phone.touched))}"
+                    [(ngModel)]="user.Phone"
+                >
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label> <sup class="text-danger"><i class="fas fa-asterisk"></i></sup> الجـــوال</label>
+                <input
+                    #Mobile="ngModel"
+                    class="form-control"
+                    name="Mobile"
+                    autocomplete="off"
+                    type="number"
+                    required
+                    [ngClass]="{'is-invalid': formSubmitted && Mobile.invalid || (Mobile.invalid && (Mobile.dirty || Mobile.touched))}"
+                    [(ngModel)]="user.Mobile"
+                >
+                <div class="text-danger"
+                    *ngIf="Mobile.invalid && formSubmitted">
+                    <p>هذا الحقل مطلوب</p>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mb-5 zoomIn" data-wow-duration="1.5s" data-wow-delay=".7s">
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label> رقم الموظف فى TajDB</label>
+                <input
+                    #TajDbUserId="ngModel"
+                    class="form-control"
+                    name="TajDbUserId"
+                    autocomplete="off"
+                    type="number"
+                    [readonly]="isAdmin"
+                  
+                    [ngClass]="{'is-invalid': formSubmitted && TajDbUserId.invalid || (TajDbUserId.invalid && (TajDbUserId.dirty || TajDbUserId.touched))}"
+                    [(ngModel)]="user.TajDbUserId"
+                >
+            </div>
+        </div>
+        <div class="form-group col-md-3 col-sm-6 mx-auto">
+            <label> التاريخ
+            </label>
+            <gregorian-hijri-calendar
+                #Date
+                [gDate]="user.ActiveToDate"
+                [isRequired]="false"
+                [disabled]="isAdmin"
+                [submitted]="formSubmitted"
+                [hidden]="false"
+                (onSelect)="selectActiveToDate($event)"
+            >
+            </gregorian-hijri-calendar>
+            <input
+                class="form-control"
+                [value]="user.ActiveToDate|appDate"
+                readonly
+                style="display: none;"
+            />
+            <div
+                class="text-danger"
+                *ngIf="Date.invalid && formSubmitted"
+            >
+                <p>هذا الحقل مطلوب</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup>  رقم الموظف فى شئون الموظفين</label>
+                <input
+                    #PayrollEmpID="ngModel"
+                    class="form-control"
+                    name="PayrollEmpID"
+                    autocomplete="off"
+                    required
+                    [readonly]="isAdmin"
+                    type="number"
+                    [ngClass]="{'is-invalid': formSubmitted && PayrollEmpID.invalid || (PayrollEmpID.invalid && (PayrollEmpID.dirty || PayrollEmpID.touched))}"
+                    [(ngModel)]="user.PayrollEmpID"
+                >
+                <div class="text-danger"
+                    *ngIf="PayrollEmpID.invalid && formSubmitted">
+                    <p>هذا الحقل مطلوب</p>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="row zoomIn" data-wow-duration="1.5s" data-wow-delay=".7s"
+        style="margin-bottom: 206px;"
+    >
+        <div
+            class="col-md-3 col-sm-12 mx-auto"
+            style="position:relative;"
+        >
+            <div class="upload-container user-image" #UserImg>
+                <input
+                    #UserImage
+                    name="UserImage"
+                    autocomplete="off"
+                    (change)="onFileChanged($event,'UserImage')"
+                    type="file"
+                    accept="image/*"
+                    class=""
+                    [ngClass]="{'is-invalid': formSubmitted && UserImage.invalid || (UserImage.invalid && (UserImage.dirty || UserImage.touched))}"
+                >
+                <p><i class="fa fa-window-close" (click)="changebackground(UserImg,'UserImageURL',true,'UserImage')"></i> إختر صورة للموظف</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12 mx-m-auto">
+            <div class="signature-image upload-container" #ImageMarking>
+                <input
+                    #UserImageMarking
+                    class=""
+                    name="UserImageMarking"
+                    autocomplete="off"
+                    (change)="onFileChanged($event,'UserImageMarking')"
+                    type="file"
+                    accept="image/*"
+                    [ngClass]="{'is-invalid': formSubmitted && UserImageMarking.invalid || (UserImageMarking.invalid && (UserImageMarking.dirty || UserImageMarking.touched))}"
+                >
+                <p><i class="fa fa-window-close  " (click)="changebackground(ImageMarking,'UserImageMarkingURL',true,'UserImageMarking')"></i>إختر تاشيرة للموظف</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12 mx-m-auto">
+            <div class="upload-container signature-image" #ImageSignature>
+                <input
+                    #UserImageSignature
+                    class=""
+                    name="UserImageSignature"
+                    autocomplete="off"
+                    (change)="onFileChanged($event,'UserImageSignature')"
+                    type="file"
+                    accept="image/*"
+                    [ngClass]="{'is-invalid': formSubmitted && UserImageSignature.invalid || (UserImageSignature.invalid && (UserImageSignature.dirty || UserImageSignature.touched))}"
+                >
+                <p><i class="fa fa-window-close pointer " (click)="changebackground(ImageSignature,'UserImageSignatureURL',true,'UserImageSignature')" ></i>إختر توقيع للموظف</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12 mx-m-auto">
+            <div class="upload-container signature-image" #ImageNoSignature>
+                <input
+                    #UserImageNoSignature
+                    class=""
+                    name="UserImageNoSignature"
+                    autocomplete="off"
+                    (change)="onFileChanged($event,'UserImageNoSignature')"
+                    type="file"
+                    accept="image/*"
+                    [ngClass]="{'is-invalid': formSubmitted && UserImageNoSignature.invalid || (UserImageNoSignature.invalid && (UserImageNoSignature.dirty || UserImageNoSignature.touched))}"
+                >
+                <p><i class="fa fa-window-close " (click)="changebackground(ImageNoSignature,'UserImageNoSignatureURL',true,'UserImageNoSignature')" ></i>اسم بدون توقيع</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-5 zoomIn" data-wow-duration="1.5s" data-wow-delay=".7s">
+        <div class="form-group col-md-2 col-sm-6" >
+            <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> تفعيل عمل المستخدم </label>
+
+            <div class="form-group col-md-2 col-sm-2">
+              <label class="checkbox-container margin-top-5">
+                <input
+                #IsActive
+                id="IsActive"
+                name="IsActive"
+                [(ngModel)]="user.IsActive"
+                [disabled]="isAdmin"
+                type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div>
+
+        <div class="col-md-3 col-sm-12 mx-auto">
+            <div class="form-group">
+                <label>كلمة مرور التوقيع</label>
+                <input
+                    #SigPassword="ngModel"
+                    class="form-control"
+                    name="SigPassword"
+                    autocomplete="off"
+                    type="password"
+                    [readonly]="isAdmin"
+                    [ngClass]="{'is-invalid': formSubmitted && SigPassword.invalid || (SigPassword.invalid && (SigPassword.dirty || SigPassword.touched))}"
+                    [(ngModel)]="user.SigPassword"
+                >
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 mx-auto"></div>
+
+    </div>
+
+</form>
+<div class="row mt-5 zoomin" data-wow-duration="1.5s" data-wow-delay=".7s">
+    <div class="col-md-3 col-sm-12 mx-auto">
+        <button
+            class="btn bg-space text-title btn-block display-4"
+            (click)="save(form.invalid,DepartmentID.invalid,PerGroupID.invalid)"
+            type="button"
+            [disabled]="isBusy"
+        >
+            <b>حفظ <i class="far fa-save"></i></b>
+        </button>
+    </div>
+</div>

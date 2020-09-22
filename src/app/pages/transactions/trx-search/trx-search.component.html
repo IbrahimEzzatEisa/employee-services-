@@ -1,0 +1,124 @@
+<div class="col-md-12 my-2 bg-space py-1 pt-2 pl-4 mb-2 w-100">
+    <h2 class="lead text-title h1 pt-1">
+        <i class="fas fa-search mr-2"></i> <b class="ocean font-weight-bolder">البحث العام</b>
+    </h2>
+</div>
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <div class="form-group">
+            <label>نوع المعاملة </label>
+            <select class="form-control"
+                name=""
+                id=""
+                [(ngModel)]="trxSearch.TrxTypeID">
+                <option value="1"> وارد</option>
+                <option value="2">صادر </option>
+                <option value="3"> داخلي</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group col-md-3 col-sm-6 ">
+        <label> ورد من
+        </label>
+        <input type="text"
+            class="form-control disabled-input"
+            name="FromName"
+            [(ngModel)]="trxSearch.FromName"
+            #FromName="ngModel" />
+    </div>
+    <div class="form-group col-md-3 col-sm-6 ">
+        <label> ورد إلى
+        </label>
+        <input class="form-control disabled-input"
+            name="ToName"
+            [(ngModel)]="trxSearch.ToName"
+            #ToName="ngModel"
+            type="text" />
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-3 col-sm-6 ">
+        <label> من رقم
+        </label>
+        <input type="number"
+            class="form-control disabled-input text-center"
+            name="TrxSerialFrom"
+            [(ngModel)]="trxSearch.TrxSerialFrom"
+            #TrxSerialFrom="ngModel" />
+    </div>
+    <div class="form-group col-md-3 col-sm-6 ">
+        <label> إلى رقم
+        </label>
+        <input type="number"
+            class="form-control disabled-input text-center"
+            name="TrxSerialTo"
+            [(ngModel)]="trxSearch.TrxSerialTo"
+            #TrxSerialTo="ngModel" />
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <label> مـن تاريخ </label>
+        <gregorian-hijri-calendar #Date
+            [gDate]="trxSearch.DateFrom"
+            [disabled]="false"
+            [isRequired]="true"
+            [hidden]="false"
+            (onSelect)="selectFromDate($event)">
+        </gregorian-hijri-calendar>
+        <input class="form-control"
+            [value]="trxSearch.DateFrom|appDate"
+            readonly
+            style="display: none;" />
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <label> إلى تاريخ</label>
+        <gregorian-hijri-calendar #Date
+            [gDate]="trxSearch.DateTo"
+            [disabled]="false"
+            [isRequired]="true"
+            [hidden]="false"
+            (onSelect)="selectToDate($event)">
+        </gregorian-hijri-calendar>
+        <input class="form-control"
+            [value]="trxSearch.DateTo|appDate"
+            readonly
+            style="display: none;" />
+    </div>
+</div>
+<div class="row">
+
+    <div class="form-group col-md-6 col-sm-12 ">
+        <label> الموضوع
+        </label>
+        <input type="text"
+            class="form-control disabled-input"
+            name="Subject"
+            [(ngModel)]="trxSearch.Subject"
+            #Subject="ngModel" />
+    </div>
+    <div class="col-md-2 mt-4">
+        <button class="btn btn-space text-title btn-block font-weight-bolder"
+            type="button"
+            (click)="save()"><i class="fas fa-search mr-2"></i>معاينه</button>
+    </div>
+</div>
+
+<div class="col-md-12   ">
+    <div class="col-md-12 mx-auto">
+        <table-box #table
+            [list]="trxSearchResultList"
+            [properties]="properties"
+            [titleArray]="titles"
+            [totalNumberOfPages]="totalNumberOfPages"
+            [totalNumberOfItems]="totalNumberOfItems"
+            [isChoices]="true"
+            [choices]="{delete : false , file: true }"
+            [filterParams]="filter"
+            (emitPageNumber)="changePageNumber($event)"
+            (emitpageSize)="changePageSize($event)"
+            (emitedRow)="navigate($event)"
+            (search)="search($event)"
+            [isSearch]="false">
+        </table-box>
+    </div>
+</div>

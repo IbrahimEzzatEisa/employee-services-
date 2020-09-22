@@ -1,0 +1,29 @@
+@import'../../../../assets/variables.scss';
+
+.delete-btn{
+    background: none;
+    border: none;
+    color: #ff2f2f;
+    &:hover{
+        color:#ff0000;
+      }
+     
+    }
+
+    .file{
+      background: none !important;
+      border: none;
+    }
+
+    .dropdown-menu {
+      min-width: 4rem !important;
+     
+      text-align: center;
+      & a:hover{
+        background-color: $space  !important;
+      color: gainsboro !important;
+      text-align: center;
+  
+      }
+  }
+    

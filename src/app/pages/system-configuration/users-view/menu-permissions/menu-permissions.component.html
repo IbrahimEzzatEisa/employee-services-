@@ -1,0 +1,231 @@
+
+<div class="row my-2 bg-space p-1 pt-3 pl-4">
+  <app-page-title
+    super="إدارة صلاحيات المجموعه"
+  ></app-page-title>
+</div>
+
+<div class="row bg-space pt-3 fadeIn" data-wow-duration="1.5s" data-wow-delay="1s">
+  
+  <div class="col-md-4">
+    <div class="input-group bs-default mb-3 " >
+        <i
+          class="fas fa-plus mr-3 mt-1 pointer text-title h4 d-inline"
+          (click)="openVerticallyCentered(content)"
+        ></i>
+    
+      <input
+        type="text"
+        class="form-control"
+        placeholder="بحث..."
+        name="search"
+        (keyup)="search($event)"
+      >
+      <div class="input-group-append ">
+        <span class="input-group-text  "><i class="text-primary fas fa-search"></i>
+          <i
+            *ngIf="filterParams.searchValue"
+            (click)="removeSearch()"
+            class="text-danger fa fa-times clickable"
+          >
+          </i></span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7"></div>
+
+  <div class="col-md-1 ml-0 pl-0 mb-2">
+    <div class="row">
+      <div class="col-6  " >
+        <div class="dropdown">
+          <button
+            class="btn bg-title dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            {{filterParams.pageSize}}
+          </button>
+          <div
+            class="dropdown-menu "
+            aria-labelledby="dropdownMenuButton"
+          >
+            <a
+              class="dropdown-item theme-dropdown"
+              (click)="setPageSize(10)"
+            ><b>10</b></a>
+            <a
+              class="dropdown-item theme-dropdown"
+              (click)="setPageSize(20)"
+            ><b>20</b>
+            </a>
+            <a
+              class="dropdown-item theme-dropdown"
+              (click)="setPageSize(30)"
+            ><b>30</b></a>
+            <a
+              class="dropdown-item theme-dropdown"
+              (click)="setPageSize(40)"
+            ><b>40</b></a>
+            <a
+              class="dropdown-item theme-dropdown"
+              (click)="setPageSize(50)"
+            ><b>50</b></a>
+          </div>
+
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+
+
+</div>
+<div class="row">
+    <table class="table table-striped">
+      <thead class="">
+        <tr class="bg-space">
+          <th class="text-center">{{configs[0].label}}</th>
+          <th class="text-center">{{configs[1].label}}</th>
+          <th class="text-center" *ngIf="isUserId">{{configs[2].label}}</th>
+          <th class="text-center">{{configs[3].label}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prop of permissions; let i=index " class="wow slideInLeft">
+          <td>{{prop.MenuID  | toArDigit}}</td>
+          <td>{{prop.Caption}}</td>
+          <td *ngIf="isUserId" class="operation-btn">
+            <button
+              type="button"
+              *ngIf="prop.IsGrant"
+              class=" "
+              (click)="changeActivation(i,prop.MenuID)"
+            ><i
+                class="fas fa-check text-success"
+              ></i>
+            </button>
+            <button
+              type="button"
+              *ngIf="!prop.IsGrant"
+              (click)="changeActivation(i,prop.MenuID)"
+              class="  "
+            ><i class="fas fa-times text-danger"></i>
+          </button>
+        </td>
+
+          <td>{{prop.choises}}
+            <button
+              class="delete-btn"
+              title="حذف "
+              (click)="delete(prop.MenuID , prop.Caption , i)"
+            ><i  class="far fa-trash-alt delete-button"></i> 
+          </button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+ 
+</div>
+<div class="row">
+  <div class="col-md-4 col-sm-9 ml-3">
+    <app-pagination
+      *ngIf="totalNumberOfPages && !(totalNumberOfPages==1)"
+      [page]="filterParams.pageNumber"
+      [size]="totalNumberOfPages"
+      (onChange)="changePageNumber($event)"
+    >
+    </app-pagination>
+  </div>
+  <div class="col-md-3 col-sm-3 form-group text-left ml-auto">
+    <app-table-info
+      *ngIf="permissions?.length>0 && !busyLoading"
+      [page]="filterParams.pageNumber"
+      [pageSize]="filterParams.pageSize"
+      [length]="permissions.length"
+      [total]="totalNumberOfItems"
+    >
+    </app-table-info>
+  </div>
+  
+</div>
+
+
+<ng-template
+  #content
+  let-modal
+  class=""
+>
+  <div class="modal-header bg-dark text-title fadeIn">
+    <h4 class="modal-title"><b> تعديل صلاحية على الشاشة</b></h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body fadeIn">
+
+    <form>
+
+      <div class="form-group ">
+        <label
+          for="inputPassword"
+          class="col-sm-12 col-form-label"
+        ><b>الشاشة :</b></label>
+        <div class="col-sm-12">
+          <app-dropdown-list
+            #menu
+            idField="MenuID"
+            textField="Caption"
+            pageSize="7"
+            palceholder="اسم الشاشه"
+            [list]="PermissionMenuList"
+            [isRequired]="true"
+            [isReadonly]="false"
+            [busyLoading]="busyLoadingDropdowns"
+            (onSelect)="SelectPermissionMenu($event)"
+          >
+          </app-dropdown-list>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group " *ngIf="isUserId">
+        <label
+          for="inputPassword"
+          class="col-sm-12 col-form-label"
+        ><b>مفعله :</b></label>
+        <div class="col-sm-6 mt-2">
+          <input
+            type="checkbox"
+            [(ngModel)]="isActive"
+            name="grant"
+            class=""
+          >
+          نعم مفعله
+        </div>
+      </div>
+    </form>
+
+
+  </div>
+  <div class="modal-footer bg-space fadeIn ">
+    <button
+      type="button"
+      class="btn btn-success font-weight-bolder"
+      (click)="addWindow()"
+    ><i class="far fa-save "></i> حفظ</button>
+    <button
+      type="button"
+      class="btn btn-danger font-weight-bolder"
+      (click)="modal.dismiss('Cross click')"
+    ><i class="far fa-times-circle"></i> الغاء</button>
+  </div>
+</ng-template>

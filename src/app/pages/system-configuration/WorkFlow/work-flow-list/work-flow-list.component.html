@@ -1,0 +1,412 @@
+<div class="row my-2 bg-space p-1 pt-3 pl-4 mb-2 ocean font-weight-bolder">
+  <h5 class=" text-title ">
+    تسلسل الصلاحيات
+  </h5>
+</div>
+
+<div class="">
+  <div
+    class="row bg-space pt-3"
+  >
+    <div class="col-md-4">
+      <div class="input-group bs-default mb-3">
+        <i
+          class="btn-hov fas fa-plus mr-3 mt-1 pointer text-title h4 d-inline"
+          data-toggle="modal"
+          data-target="#exampleModal"
+        ></i>
+
+        <input
+          type="text"
+          class="form-control"
+          placeholder="بحث..."
+          name="search"
+          (keyup)="search($event)"
+        >
+        <div class="input-group-append ">
+          <span class="input-group-text  "><i class="text-primary fas fa-search"></i>
+            <i
+              *ngIf="queryString"
+              (click)="removeSearch()"
+              class="text-danger fa fa-times clickable"
+            >
+            </i></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7"></div>
+
+
+
+
+  </div>
+
+  <div class="row">
+    <table class="table table-striped">
+      <thead class="">
+        <tr class="bg-space">
+          <th *ngFor="let title of configs" class="text-center"> {{title.label}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let prop of workFlowlist; let i=index"
+          class="wow slideInLeft"
+        >
+          <td>{{prop.ID | toArDigit}}</td>
+          <td>{{prop.TypeName}}</td>
+          <td>{{prop.DepartmentName}}</td>
+          <td>{{prop.UserFullName}}</td>
+          <td>{{prop.choises}}
+            <i
+              class="fas fa-file btn-hov text-gray "
+              (click)="fill(prop)"
+              data-toggle="modal"
+              data-target="#basicExampleModal"
+            ></i>
+
+
+
+            <button
+              class=""
+              title="حذف "
+              (click)="delete(prop.ID,prop.UserFullName , i)"
+            ><i class="far fa-trash-alt btn-hov"></i></button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+
+
+</div>
+
+<!-- <nav aria-label="Page navigation ">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" (click)='Previous()' >السابق</a></li>
+      <li class="page-item"><a class="page-link" >1</a></li>
+      <li class="page-item"><a class="page-link" >2</a></li>
+      <li class="page-item"><a class="page-link" (click)='next()' >التالي</a></li>
+    </ul>
+  </nav>   -->
+
+<!-- Modal edit-->
+<div
+  class="modal fade"
+  id="basicExampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div
+     class="modal-dialog modal-dialog-centered" role="document">
+
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+        >
+        <i class="fas fa-user-edit"></i> تعديل
+
+        </h5>
+  
+      </div>
+      <div class="modal-body">
+
+        <div>
+          <form
+            name="form"
+            #form="ngForm"
+          >
+
+            <div
+              class="row "
+            >
+              <div class="col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>
+                    نوع التسلسل</label>
+                  <app-dropdown-list
+                    #Codeemp
+                    idField="TypeID"
+                    textField="TypeName"
+                    pageSize="7"
+                    palceholder=" نوع التسلسل"
+                    [list]="workFlowTypes"
+                    [selectedItemId]="WorkFlows.TypeID "
+                    (onSelect)="SelectWorkFlowTypes($event)"
+                  >
+                  </app-dropdown-list>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class=" col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>
+                    الإدارة/القسم</label>
+                  <app-dropdown-list
+                    #PerGroupID
+                    idField="DepartmentID"
+                    textField="DepartmentName"
+                    pageSize="7"
+                    palceholder="الإدارة/القسم"
+                    [list]="department"
+                    [selectedItemId]="WorkFlows.DepartmentID"
+                    (onSelect)="SelectWorkFlowDepartment($event)"
+                  >
+                  </app-dropdown-list>
+                  <!-- <div class="text-danger"
+                          *ngIf="PerGroupID.invalid && formSubmitted">
+                          <p>هذا الحقل مطلوب</p>
+                        </div> -->
+                </div>
+              </div>
+            </div>
+            <div
+              class="row "
+            >
+              <div class=" col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>
+
+                    الموظف المسئول</label>
+                  <app-dropdown-list
+                    #EmplCode
+                    idField="ID"
+                    textField="Name"
+                    pageSize="7"
+                    palceholder=" "
+                    [list]="userByDepartment"
+                    [selectedItemId]="WorkFlows.UserID"
+                    (onSelect)="SelectWorkFlowUser($event)"
+                  >
+                  </app-dropdown-list>
+                  <!-- <div class="text-danger"
+                      *ngIf="PerGroupID.invalid && formSubmitted">
+                      <p>هذا الحقل مطلوب</p>
+                    </div> -->
+                </div>
+              </div>
+
+
+            </div>
+            <div class="row">
+              <div class="col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>
+                    الترتيب بالنسبة لنوع التسلسل</label>
+                  <input
+                    #Order="ngModel"
+                    class="form-control"
+                    name="Order"
+                    type="number"
+                    [(ngModel)]="WorkFlows.Order"
+                  >
+
+                </div>
+              </div>
+            </div>
+
+
+          </form>
+          <div
+            class="row "
+          >
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                class="btn bg-add  text-title btn-block display-4"
+                (click)="saveedit()"
+                type="button"
+              >
+                <b>حفظ <i class="far fa-save"></i></b>
+              </button>
+
+
+            </div>
+
+
+            <div class="col-md-3 col-sm-12 mx-auto">
+
+              <button
+              type="button"
+              class="btn bg-cancel text-title btn-block display-4"
+              data-dismiss="modal"
+            > <b>اغلاق <i class="far fa-window-close"></i></b> </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!--test-->
+
+<!-- Modal  add-->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div
+  class="modal-dialog modal-dialog-centered" role="document">
+
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+        >
+        <i class="fas fa-user-plus"></i> اضافة
+        </h5>
+
+      </div>
+      <div class="modal-body">
+
+        <div>
+          <form
+            name="form"
+            #form="ngForm"
+          >
+
+            <div
+              class="row"
+            >
+              <div class=" col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>
+                    نوع التسلسل</label>
+                  <app-dropdown-list
+                    idField="TypeID"
+                    textField="TypeName"
+                    pageSize="7"
+                    palceholder=" نوع التسلسل"
+                    [list]="workFlowTypes"
+                    [selectedItemId]="WorkFlows.TypeID "
+                    (onSelect)="SelectWorkFlowTypes($event)"
+                  >
+                  </app-dropdown-list>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class=" col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>
+                    الإدارة/القسم</label>
+                  <app-dropdown-list
+                    #PerGroupID
+                    idField="DepartmentID"
+                    textField="DepartmentName"
+                    pageSize="7"
+                    palceholder="الإدارة/القسم"
+                    [list]="department"
+                    [selectedItemId]="WorkFlows.DepartmentID"
+                    (onSelect)="SelectWorkFlowDepartment($event)"
+                  >
+                  </app-dropdown-list>
+                  <!-- <div class="text-danger"
+                          *ngIf="PerGroupID.invalid && formSubmitted">
+                          <p>هذا الحقل مطلوب</p>
+                        </div> -->
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="row "
+             
+            >
+              <div class=" col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>
+                    الموظف المسئول</label>
+                  <app-dropdown-list
+                    #EmplCode
+                    idField="UserID"
+                    textField="UserFullName"
+                    pageSize="7"
+                    palceholder=" "
+                    [list]="userByDepartment"
+                    [selectedItemId]="WorkFlows.UserID"
+                    (onSelect)="SelectWorkFlowUser($event)"
+                  >
+                  </app-dropdown-list>
+                  <!-- <div class="text-danger"
+                      *ngIf="PerGroupID.invalid && formSubmitted">
+                      <p>هذا الحقل مطلوب</p>
+                    </div> -->
+                </div>
+              </div>
+
+
+              
+            </div>
+            <div class="row">
+              <div class=" col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>
+
+                    الترتيب بالنسبة لنوع التسلسل</label>
+                  <input
+                    #Order="ngModel"
+                    class="form-control"
+                    name="Order"
+                    type="number"
+                    [(ngModel)]="WorkFlows.Order"
+                  >
+                </div>
+              </div>
+            </div>
+          </form>
+            <div
+            class="row " >
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                class="btn btn-success text-title btn-block display-4"
+                (click)="saveadd()"
+                type="button"
+              >
+                <b>حفظ <i class="far fa-save"></i></b>
+              </button>
+
+
+            </div>
+
+
+            <div class="col-md-3 col-sm-12 mx-auto">
+
+              <button
+                type="button"
+                class="btn btn-danger text-title btn-block display-4"
+                data-dismiss="modal"
+              > <b>اغلاق <i class="far fa-window-close"></i></b> </button>
+
+            </div>
+          </div>
+         
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+

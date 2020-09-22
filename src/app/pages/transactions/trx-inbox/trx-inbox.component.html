@@ -1,0 +1,152 @@
+<div class="col-md-12 my-2 bg-space p-1 ocean  pl-4 mb-5 w-100">
+    <h2 class=" text-title h1">
+        <i class="fas fa-box-open h4 mx-2"></i>البريد
+    </h2>
+</div>
+<div class="col-md-12 my-2 bg-section  p-1 pt-3 pl-4 mb-5 w-100"
+*ngIf="!(trxInboxList.length > 0)">
+    <h2 class="lead text-title display-3 text-center">
+        لا يوجد بيانات
+    </h2>
+</div>
+
+<div
+    class="col-md-12 bg-space pt-3 fadeIn"
+    *ngIf="trxInboxList.length > 0"
+>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group bs-default mb-3">
+
+
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="بحث..."
+                    name="search"
+                    (keyup)="search($event)"
+                >
+                <div class="input-group-append ">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7"></div>
+
+        <div class="col-md-1 ml-0 pl-0 mb-2 ">
+            <div class="row">
+                <div class="col-6">
+                    <div class="dropdown">
+                        <button
+                            class="btn bg-title dropdown-toggle"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                        >
+                            {{filterParams.pageSize}}
+                        </button>
+                        <div
+                            class="dropdown-menu  text-dark bg-title"
+                            aria-labelledby="dropdownMenuButton"
+                        >
+                            <a
+                                class="dropdown-item theme-dropdown"
+                                (click)="setPageSize(10)"
+                            ><b>10</b></a>
+                            <a
+                                class="dropdown-item theme-dropdown"
+                                (click)="setPageSize(20)"
+                            ><b>20</b>
+                            </a>
+                            <a
+                                class="dropdown-item theme-dropdown"
+                                (click)="setPageSize(30)"
+                            ><b>30</b></a>
+                            <a
+                                class="dropdown-item theme-dropdown"
+                                (click)="setPageSize(40)"
+                            ><b>40</b></a>
+                            <a
+                                class="dropdown-item theme-dropdown b"
+                                (click)="setPageSize(50)"
+                            ><b>50</b></a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div
+    class="row  "
+    *ngIf="trxInboxList.length > 0"
+>
+    <div class="col-md-12 ">
+        <table class="table mt-2">
+            <thead>
+                <tr class="text-title bg-space">
+                    <th class="text-center "> رقم </th>
+                    <th class="text-center "> نوع المعاملة </th>
+                    <th class="text-center "> تاريخ </th>
+                    <th class="text-center "> موضوع  </th>
+                    <th class="text-center "> من   </th>
+                    <th class="text-center "> الي </th>
+                    <th class="text-center "> مرفقات  </th>
+                    <th class="text-center ">الحاله</th>
+                    <th class="text-center ">خيارات</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let row of trxInboxList;let i = index"
+                    class="wow slideInLeft"
+                >
+
+                    <td>{{row.TrxSerial}}</td>
+                    <td>{{row.TypeName}}</td>
+                    <td>{{row.TrxHijriDate}}</td>
+                    <td>{{row.Subject}}</td>
+                    <td>{{row.FromName}}</td>
+                    <td>{{row.ToName}}</td>
+                    <td>{{row.AttachmentsNo}}</td>
+                    <td>{{row.StatusName}}</td>
+                    <td (click)="navigate(row)"><i class="fas fa-file"></i></td> 
+
+
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="row w-100">
+        <div class="col-md-4 col-sm-12 ml-3">
+            <app-pagination
+                *ngIf="totalNumberOfPages && !(totalNumberOfPages==1)"
+                [page]="filterParams.pageNumber"
+                [size]="totalNumberOfPages"
+                (onChange)="changePageNumber($event)"
+            >
+            </app-pagination>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4 col-sm-6 form-group">
+            <app-table-info
+                *ngIf="trxInboxList?.length>0 && !busyLoading"
+                [length]="trxInboxList.length"
+                [page]="filterParams.pageNumber"
+                [pageSize]="filterParams.pageSize"
+                [total]="totalNumberOfItems"
+            >
+            </app-table-info>
+        </div>
+    </div>
+</div>

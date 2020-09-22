@@ -1,0 +1,230 @@
+@import './../../../../assets/variables.scss';
+
+.options {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        padding: 5px;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            .cancel-icon {
+                color: $warn;
+            }
+        } 
+        
+        .cancel-icon {
+            margin: 1px;
+    
+            &:hover {
+                cursor: pointer;
+                color: rgba($warn, 0.5);    
+            }
+        }
+
+       
+    }
+
+
+
+
+
+
+
+
+
+
+
+.search-input {
+    position: relative;
+    
+    &:hover {
+        .close-icon {
+            color: $warn;
+
+            &:hover {
+                cursor: pointer;
+                color: rgba($warn, 0.5);    
+            }
+        }
+    }
+
+    input {
+        padding-right: 35px;
+        padding-left: 35px;
+    }
+
+    .search-icon {
+        position: absolute;
+        bottom: 10px;
+        right: 0px;
+        font-size: 25px;
+        padding: 5px;
+        color: $accent;
+    }
+
+    .close-icon {
+        position: absolute;
+        bottom: 10px;
+        left: 0px;
+        padding: 5px 10px;
+        margin: 1px;    
+    }
+
+    
+}
+
+.master-form-button span {
+     display:inline; 
+     text-shadow: 5px 5px 3px black;
+     
+}
+button:nth-child(2){
+    position:relative;
+    padding: 6px 15px;
+    border-radius: 0px;
+    text-align: center;
+    outline: none!important;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    box-shadow: none!important;
+    background: $primary ;
+    background: -moz-linear-gradient(-45deg, $primary 0%, $primary 15%, $primary 15%, $primary 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, $primary 0%,$primary 15%,$primary 15%,$primary 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, $primary 0%,$primary 15%,$primary 15%,$primary 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$primary', endColorstr='$primary',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    color: $accent!important;
+    &:hover{
+        position:relative;
+        padding: 6px 15px;
+        border-radius: 0px;
+        text-align: center;
+        outline: none!important;
+        border: none;
+        box-shadow: none;
+        cursor: pointer;
+        box-shadow: none!important;
+        background: $accent;
+        background: -moz-linear-gradient(-45deg, 0%, $accent, $accent 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(-45deg, 0%,$accent,$accent 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(135deg, 0%,$accent,$accent 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e7d197', endColorstr='$accent',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+        color: $primary!important;
+    }
+}
+
+button:nth-child(2){
+    div:nth-child(1){
+        position: absolute;
+        top: 100%;
+        left:0;
+        min-width: 165px;
+        padding-top: 3px;
+        z-index: 999;
+    }
+    div{
+        background:$accent;
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            li p{
+                font-size: 14px;
+                color: $primary ;
+                text-align: center;
+                padding: 8px 20px;
+                margin: 0px;
+                position: relative;
+                &.selected {
+                    background: $primary ;
+                    color: white;
+                }
+                span {
+    position: absolute;
+    right: 8px;
+    top: 5px;
+    bottom: 5px;
+    padding: 6px 3px;
+}
+            }
+        }
+    }
+
+}
+
+
+
+.dropdown {
+    position: relative;
+    display: inline;
+    font-weight:bolder;
+    padding: 6px 15px;
+    background:$primary;
+    color:$accent;
+   & span .select-arrow {
+        margin: 1px;
+        transform: translateY(-3px);
+        color: $accent;
+
+        &:hover {
+            cursor: pointer;
+            color: rgba($accent, 0.5);
+        }
+    }
+
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: $primary;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right:0;
+    top:100%;
+    color:$accent;
+  }
+  .dropdown:hover .dropdown-content {
+    display: block;
+
+  }
+  
+
+
+
+.app-table {
+    box-shadow: 1px 1px 6px 1px rgba(3, 3, 3, 0.35); 
+    .clickable {
+        cursor: pointer;
+    }  
+    thead {
+
+        tr {
+            background-color: $primary;
+            color: #FFF;
+
+            th {
+                border: none;
+            }
+        }
+    }
+    tbody {
+
+        tr {
+            background-color: #FFF;
+            // transition: transform 0.1s ease-in-out;
+
+            &:hover {
+                // transform: scale(1.02);
+                // box-shadow: 0.5px 0.5px 2px 1px rgba(3, 3, 3, 0.35);
+                background-color: #ececec;
+                cursor: pointer;
+                box-shadow: -3px 0 0 0 $accent inset;
+            }
+        }
+    }
+}

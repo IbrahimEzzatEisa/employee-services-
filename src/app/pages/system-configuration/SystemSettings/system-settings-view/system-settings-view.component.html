@@ -1,0 +1,1035 @@
+<!-- Tabs -->
+<section id="tabs">
+    <div class="container">
+        <h6 class="section-title h1 text-space"> <i class="fas fa-search"></i> {{title || 'بحث الانتداب' }}</h6>
+
+        <div class="row">
+            <div
+                class="nav nav-tabs nav-fill col-12"
+                id="nav-tab"
+                role="tablist"
+            >
+                <a
+                    class="nav-item nav-link active col-12 text-space"
+                    data-toggle="tab"
+                    role="tab"
+                    aria-controls="nav-home"
+                    aria-selected="true"
+                    *ngIf="false"
+                    (click)="title = 'إعدادات التعاملات'; page = 1 "
+                > إعدادات التعاملات </a>
+                <a
+                    class="nav-item nav-link col-12 text-space"
+                    data-toggle="tab"
+                    role="tab"
+                    aria-controls="nav-profile"
+                    aria-selected="false"
+                    (click)="title = 'إعدادات الأجازات'; page = 2;"
+                > إعدادات الأجازات</a>
+                <a
+                    class="nav-item nav-link col-12 text-space"
+                    data-toggle="tab"
+                    role="tab"
+                    aria-controls="nav-contact"
+                    aria-selected="false"
+                    (click)="title = 'إعدادات الاذون والانتدابات'; page = 3"
+                > إعدادات الاذون والانتدابات</a>
+                <a
+                    class="nav-item nav-link col-12 text-space"
+                    data-toggle="tab"
+                    role="tab"
+                    aria-controls="nav-about"
+                    aria-selected="false"
+                    (click)="title = 'إعدادات أخري'; page = 4"
+                > إعدادات أخري</a>
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+
+<div [hidden]="!(page == 1)">
+
+    <div class="row">
+        <div class="col-md-3 mt-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="IsStartPage"
+                    [(ngModel)]="systemSetting.IsStartPage"
+                >
+                <label class="form-check-label ">
+                    اخفاء وارد الى من الوارد العام
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <label> صورة المعاملة
+            </label>
+            <app-dropdown-list
+                #TrxCopyToDirectUser
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="ManagerList"
+                [busyLoading]="ManagerBusyLoading"
+                [selectedItemId]="systemSetting.TrxCopyToDirectUser"
+                (onSelect)="SelectTrxCopyToDirectUser($event)"
+            >
+            </app-dropdown-list>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <label> توجيه المعاملة
+            </label>
+            <app-dropdown-list
+                #TrxToDirectUser
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="ManagerList"
+                [busyLoading]="ManagerBusyLoading"
+                [selectedItemId]="systemSetting.TrxToDirectUser"
+                (onSelect)="SelectTrxToDirectUser($event)"
+            >
+            </app-dropdown-list>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <label> مسئول الإفادات
+            </label>
+            <app-dropdown-list
+                #StatementsEmpID
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="ManagerList"
+                [busyLoading]="ManagerBusyLoading"
+                [selectedItemId]="systemSetting.StatementsEmpID"
+                (onSelect)="SelectStatementsEmpID($event)"
+            >
+            </app-dropdown-list>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12 col-sm-6">
+            <label>الصادر الى</label>
+            <app-dropdown-list
+                #SMSDirect
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="outsideDDl"
+                [busyLoading]="SMSDirectbusyLoading"
+                [selectedItemId]="systemSetting.SMSDirect"
+                (onSelect)="SelectSMSDirect($event)"
+            >
+            </app-dropdown-list>
+            <div class="chosen-container chosen-container-multi chosen-rtl chosen-with-drop chosen-container-active">
+                <ul
+                    *ngIf="outSideList.length > 0 "
+                    class="chosen-choices"
+                >
+                    <li
+                        *ngFor="let item of outSideList; let i=index"
+                        class="bg-space search-choice text-title m-2"
+                    > <i
+                            class="fas fa-times px-1"
+                            (click)="deleteoutsideDDlItem(i)"
+                        ></i>{{item.Name}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="TransactionOutAdd"
+                    [(ngModel)]="systemSetting.TransactionOutAdd"
+                >
+                <label class="form-check-label ">
+                    إمكانية تصدير المعاملة الواردة من شاشة الصادر
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="Generalization"
+                    [(ngModel)]="systemSetting.Generalization"
+                >
+                <label class="form-check-label ">
+                    إمكانية التعميم
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="GeneralizationFromManagers"
+                    [(ngModel)]="systemSetting.GeneralizationFromManagers"
+                >
+                <label class="form-check-label ">
+                    يقتصر التعميم على المديرين فقط
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="SaveTrxFromExp_Imp"
+                    [(ngModel)]="systemSetting.SaveTrxFromExp_Imp"
+                >
+                <label class="form-check-label ">
+                    حفظ المعاملة متاح للإتصالات الإدارية فقط
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="ExportTrxFromExp_Imp"
+                    [(ngModel)]="systemSetting.ExportTrxFromExp_Imp"
+                >
+                <label class="form-check-label ">
+                    تصدير المعاملة متاح للإتصالات الإدارية فقط
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="TrxInboxBeforeVacation"
+                    [(ngModel)]="systemSetting.TrxInboxBeforeVacation"
+                >
+                <label class="form-check-label ">
+                    انهاء التعاملات قبل الاجازات
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="trxdirectivepull"
+                    [(ngModel)]="systemSetting.trxdirectivepull"
+                >
+                <label class="form-check-label ">
+                    سحب المعاملات المتأخرة
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="ActiveUniCode"
+                    [(ngModel)]="systemSetting.ActiveUniCode"
+                >
+                <label class="form-check-label ">
+                    تفعيل الكود الموحد
+                </label>
+            </div>
+        </div>
+    </div>
+
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-3 pt-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="ActiveSmscitizen"
+                    [(ngModel)]="systemSetting.ActiveSmscitizen"
+                >
+                <label class="form-check-label ">
+                    ارسال رسالة لصاحب المعاملة
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3 pt-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    type="checkbox"
+                    name="DeleteExpand"
+                    [(ngModel)]="systemSetting.DeleteExpand"
+                >
+                <label class="form-check-label ">
+                    الغاء تمديد المعاملة من الإدارات
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3 pt-3">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="ActivStatmentWriting"
+                    [(ngModel)]="systemSetting.ActivStatmentWriting"
+                >
+                <label class="form-check-label ">
+                    تأكيد كتابة الشروحات
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label> الإحالة من قسم إلى قسم من خلال
+            </label>
+            <app-dropdown-list
+                #DepartmentID
+                idField="DepartmentID"
+                textField="DepartmentName"
+                pageSize="7"
+                palceholder="الإدارة"
+                [list]="DepartmentList"
+                [selectedItemId]="systemSetting.DepartmentID"
+                [isRequired]="false"
+                [isReadonly]="false"
+                [busyLoading]="departmentBusyLoading"
+                (onSelect)="SelectDepartment($event)"
+            >
+            </app-dropdown-list>
+
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+<div [hidden]="!(page == 2)">
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <label> توجيه الأجازة
+            </label>
+            <app-dropdown-list
+                #VacationToUserID
+                idField="UserID"
+                textField="DepartmentName"
+                pageSize="7"
+                palceholder=" توجيه الأجازة"
+                [list]="departmentManagersUserList"
+                [busyLoading]="DepartmentManagersUsersBusyLoading"
+                [selectedItemId]="systemSetting.VacationToUserID"
+                (onSelect)="selectdepartmentManagersUser($event)"
+            >
+            </app-dropdown-list>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mt-4  ">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="RedirectFromVacLastUser"
+                    [(ngModel)]="systemSetting.RedirectFromVacLastUser"
+                >
+                <label class="form-check-label ">
+                    إمكانية توجية الأجازات من شئون الموظفين
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <label> استلام الاجازات
+            </label>
+            <app-dropdown-list
+                #DeptIDForVacationFinish
+                idField="DepartmentID"
+                textField="DepartmentName"
+                pageSize="7"
+                palceholder="استلام الاجازات "
+                [list]="departmentDropdownList"
+                [busyLoading]="departmentNameBusyLoading"
+                [selectedItemId]="systemSetting.DeptIDForVacationFinish"
+                (onSelect)="SelectDeptIDForVacationFinish($event)"
+            >
+            </app-dropdown-list>
+        </div>
+
+        <div class=" col-md-3  col-sm-6 ">
+            <label> مسئول التفويض
+            </label>
+            <app-dropdown-list
+                #AgentUser
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="ManagerList"
+                [busyLoading]="ManagerBusyLoading"
+                [selectedItemId]="systemSetting.AgentUser"
+                (onSelect)="SelectAgentUser($event)"
+            >
+            </app-dropdown-list>
+
+        </div>
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+            <div class=" col-md-3  col-sm-6 "></div>
+            <label> المسئول عن استعلام الاجازات</label>
+
+            <app-dropdown-list
+                #VacationSearchUser
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="VacationSearchUserList"
+                [busyLoading]="VacationSearchUserListBusyLoading"
+                (onSelect)="selectVacationSearchUser($event)"
+            >
+            </app-dropdown-list>
+            <div class="chosen-container chosen-container-multi chosen-rtl chosen-with-drop chosen-container-active">
+                <ul
+                    *ngIf="VacationSearchUserListChoosen.length > 0 "
+                    class="chosen-choices"
+                >
+                    <li
+                        *ngFor="let item of VacationSearchUserListChoosen; let i=index"
+                        class="bg-space search-choice text-title m-2"
+                    > <i
+                            class="fas fa-times px-1"
+                            (click)="deleteVacationSearchUserItem(i)"
+                        ></i>{{item.Name}}</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-3 col-sm-6 ">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="ActivateAlternativeVacation"
+                    [(ngModel)]="systemSetting.IsAlternativeinVacFromManager"
+                >
+                <label class="form-check-label ">
+                    الموظف البديل يحدده المدير
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="IsAlternativeEmp"
+                    [(ngModel)]="systemSetting.IsAlternativeEmp"
+                >
+                <label class="form-check-label ">
+                    اجباري
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="IsAlternativeinVacFromManager"
+                    [(ngModel)]="systemSetting.ActivateAlternativeVacation"
+                >
+                <label class="form-check-label ">
+                    تفعيل موافقة الموظف البديل على طلب الاجازة
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="AddMandortyAgentForVacation"
+                    [(ngModel)]="systemSetting.AddMandortyAgentForVacation"
+                >
+                <label class="form-check-label ">
+                    اضافة تفويض اجباري بطلب الاجازة
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-md-3 col-sm-6 ">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="VacationSMSSend"
+                    [(ngModel)]="systemSetting.VacationSMSSend"
+                >
+                <label class="form-check-label ">
+                    تفعيل رسائل جوال الأجازات
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="SendsmsLateVacation"
+                    [(ngModel)]="systemSetting.SendsmsLateVacation"
+                >
+                <label class="form-check-label ">
+                    ارسال رسالة لمقدم الاجازة بالتاخير
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="IsVacationNeedAttach"
+                    [(ngModel)]="systemSetting.IsVacationNeedAttach"
+                >
+                <label class="form-check-label ">
+                    إرفاق صورة عند طلب الأجازة
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="SaveinPayrollDecisionNormalVacation"
+                    [(ngModel)]="systemSetting.SaveinPayrollDecisionNormalVacation"
+                >
+                <label class="form-check-label ">
+                    حفظ القرار مع الاجازة
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-md-3 col-sm-6 mt-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="PreventOldVac"
+                    [(ngModel)]="systemSetting.PreventOldVac"
+                >
+                <label class="form-check-label ">
+                    عدم السماح بتقديم اجازة بتاريخ سابق
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3  col-sm-6 ">
+            <label
+                for="VactionGraceperiod"
+                class="col-form-label "
+            > فترة
+                السماح
+                بتقديم اجازة
+            </label>
+            <input
+                type="number"
+                class="form-control required"
+                name="VactionGraceperiodName"
+                #VactionGraceperiod
+                [(ngModel)]="systemSetting.VactionGraceperiod"
+                max="365"
+                min="0"
+                minlength="3"
+            >
+        </div>
+
+        <div class=" col-md-3  col-sm-6 ">
+            <label> فترة
+                الموافقة او الرفض للاجازة
+            </label>
+            <input
+                type="number"
+                class="form-control required"
+                name="DayesLateVactionName"
+                #DayesLateVaction
+                [(ngModel)]="systemSetting.DayesLateVaction"
+                max="365"
+                min="0"
+                minlength="3"
+            >
+
+        </div>
+
+        <div class="col-md-3 col-sm-6 mt-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="VacationForLegated"
+                    [(ngModel)]="systemSetting.VacationForLegated"
+                >
+                <label class="form-check-label ">
+                    السماح بتقديم اجازة للمنتدب والموقوف الراتب
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-md-3 col-sm-6 mt-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="AgreeLateVacation"
+                    [(ngModel)]="systemSetting.AgreeLateVacation"
+                >
+                <label class="form-check-label ">
+                    الاجازات المتأخرة
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div [hidden]="!(page == 3)">
+
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <label> استلام الاذون </label>
+            <app-dropdown-list
+                #DepartmentID
+                idField="DepartmentID"
+                textField="DepartmentName"
+                pageSize="7"
+                palceholder="الإدارة"
+                [list]="DepartmentList"
+                [selectedItemId]="systemSetting.DeptIDForDepartureFinish"
+                [isRequired]="false"
+                [isReadonly]="false"
+                [busyLoading]="departmentBusyLoading"
+                (onSelect)="SelectDeptIDForDepartureFinish($event)"
+            >
+            </app-dropdown-list>
+        </div>
+
+
+        <div class="col-md-3 col-sm-6">
+            <label> استلام الانتدابات </label>
+            <app-dropdown-list
+                #DepartmentID
+                idField="DepartmentID"
+                textField="DepartmentName"
+                pageSize="7"
+                palceholder="الإدارة"
+                [list]="DepartmentList"
+                [selectedItemId]="systemSetting.DeptIDForLegationFinish"
+                [isRequired]="false"
+                [isReadonly]="false"
+                [busyLoading]="departmentBusyLoading"
+                (onSelect)="SelectDeptIDForLegationFinish($event)"
+            >
+            </app-dropdown-list>
+        </div>
+
+        <div class="col-md-3 pt-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="AbsenceDeductAddEdit"
+                    [(ngModel)]="systemSetting.AbsenceDeductAddEdit"
+                >
+                <label class="form-check-label ">
+                    التحقق من الاجازات المتقطعة في طلب الحسم
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3 pt-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="IsAbsenceDeductAttacmentReq"
+                    [(ngModel)]="systemSetting.IsAbsenceDeductAttacmentReq"
+                >
+                <label class="form-check-label ">
+                    إضافة مرفقات لطلب الحسم
+                </label>
+            </div>
+        </div>
+
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-3 pt-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="CheckActiveDepartureMonthly"
+                    [(ngModel)]="systemSetting.CheckActiveDepartureMonthly"
+                >
+                <label class="form-check-label ">
+                    تفعيل الصلاحيات على الاذون
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-3  col-sm-6 ">
+            <label>عدد أيام الاذون للموظف </label>
+            <input
+                type="number"
+                class="form-control"
+                name="DepartureDaysCountName"
+                #DepartureDaysCount
+                [(ngModel)]="systemSetting.DepartureDaysCount"
+                max="365"
+                min="0"
+                minlength="3"
+            >
+        </div>
+
+        <div class="  col-md-3  col-sm-6 ">
+            <label
+                for="DepartureHoursCount"
+                class="col-form-label "
+            > عدد ساعات الاذون</label>
+
+            <input
+                type="number"
+                class="form-control required"
+                name="DepartureHoursCountName"
+                #DepartureHoursCount
+                [(ngModel)]="systemSetting.DepartureHoursCount"
+                max="365"
+                min="0"
+                minlength="3"
+            >
+        </div>
+        <div class="form-group col-md-3  col-sm-6 ">
+            <label
+                for="oneDepartureHours"
+                class="col-form-label "
+            >الحد الاقصى للساعات </label>
+
+            <input
+                type="number"
+                class="form-control required"
+                name="oneDepartureHoursName"
+                #oneDepartureHours
+                [(ngModel)]="systemSetting.oneDepartureHours"
+                max="1000"
+                min="0"
+                minlength="4"
+            >
+        </div>
+
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-3 pt-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="PreventOldDeparture"
+                    [(ngModel)]="systemSetting.PreventOldDeparture"
+                >
+                <label class="form-check-label ">
+                    عدم السماح بتقديم إذن بتاريخ سابق
+                </label>
+            </div>
+        </div>
+
+        <div class=" col-md-3  col-sm-6 ">
+            <label> فترة
+                السماح
+                بتقديم إذن
+            </label>
+
+            <input
+                type="number"
+                class="form-control"
+                name="BackDaysDepartureLName"
+                #BackDaysDepartureL
+                [(ngModel)]="systemSetting.BackDaysDepartureL"
+                max="365"
+                min="0"
+                minlength="3"
+            >
+        </div>
+
+        <div class="col-md-3 pt-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="ActiveDeparturesUser"
+                    [(ngModel)]="systemSetting.ActiveDeparturesUser"
+                >
+                <label class="form-check-label ">
+                    تفعيل مسئول لتقديم الاوذونات
+                </label>
+            </div>
+        </div>
+
+        <div class=" col-md-3  col-sm-6 ">
+            <label> مسئول تقديم الاوذون
+            </label>
+            <app-dropdown-list
+                #AgentUser
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="ManagerList"
+                [busyLoading]="ManagerBusyLoading"
+                [selectedItemId]="systemSetting.UserForAddDepartures"
+                (onSelect)="SelectUserForAddDepartures($event)"
+            >
+            </app-dropdown-list>
+
+        </div>
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-3 pt-3 col-sm-6">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="ActiveOutOfDutyUser"
+                    [(ngModel)]="systemSetting.ActiveOutOfDutyUser"
+                >
+                <label class="form-check-label ">
+                    تفعيل مسئول لتقديم خارج الدوام
+                </label>
+            </div>
+        </div>
+
+        <div class=" col-md-3  col-sm-6 ">
+            <label> مسئول تقديم خارج الدوام
+            </label>
+            <app-dropdown-list
+                #AgentUser
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="ManagerList"
+                [busyLoading]="ManagerBusyLoading"
+                [selectedItemId]="systemSetting.UserForAddOutOfDuty"
+                (onSelect)="SelectUserForAddOutOfDuty($event)"
+            >
+            </app-dropdown-list>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<div [hidden]="!(page == 4)">
+
+    <div class="row">
+        <div class=" col-md-3 col-sm-6 ">
+            <label> اسم الجهة
+            </label>
+
+            <input
+                type="text"
+                class="form-control text-center"
+                name="CompanyName"
+                #CompanyName
+                palceholder=" "
+                [(ngModel)]="systemSetting.CompanyName"
+            >
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <label> إدارة طلبات الصيانة
+            </label>
+            <app-dropdown-list
+                #DeptIDForVacationFinish
+                idField="DepartmentID"
+                textField="DepartmentName"
+                pageSize="7"
+                palceholder="اختر الادارة "
+                [list]="departmentDropdownList"
+                [selectedItemId]="systemSetting.MSDefaultDeptID"
+                (onSelect)="SelectMSDefaultDeptID($event)"
+            >
+            </app-dropdown-list>
+        </div>
+
+        <div class=" col-md-3 col-sm-6 ">
+            <label> موظف طلبات الصيانة
+            </label>
+            <app-dropdown-list
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="userListByDepartmentId"
+                [busyLoading]="UserByDepartmentIdBusyLoading"
+                [selectedItemId]="systemSetting.MSDefaultUserDirectiveId"
+                (onSelect)="SelectMSDefaultUserDirectiveId($event)"
+            >
+                >
+            </app-dropdown-list>
+        </div>
+        <div class="col-md-3 col-sm-6 mt-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="changepassword"
+                    [(ngModel)]="systemSetting.changepassword"
+                >
+                <label class="form-check-label ">
+                    امكانية تغيير الباسورد
+                </label>
+            </div>
+        </div>
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-3 col-sm-6 mt-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="ActiveEditor"
+                    [(ngModel)]="systemSetting.ActiveEditor"
+                >
+                <label class="form-check-label ">
+                    تفعيل التوقيع الالكترونى
+                </label>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mt-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="UseNewFont"
+                    [(ngModel)]="systemSetting.UseNewFont"
+                >
+                <label class="form-check-label ">
+                    إستخدام الفونت الجديد للخطابات
+                </label>
+            </div>
+        </div>
+        <div class=" col-md-3  col-sm-6 ">
+            <label> إرسال رسالة الى
+            </label>
+            <app-dropdown-list
+                #AgentUser
+                idField="ID"
+                textField="Name"
+                pageSize="7"
+                palceholder=" "
+                [list]="ManagerList"
+                [busyLoading]="ManagerBusyLoading"
+                [selectedItemId]="systemSetting.UserSMS"
+                (onSelect)="SelectUserSMS($event)"
+            >
+            </app-dropdown-list>
+
+        </div>
+
+        <div class="col-md-3  col-sm-6 ">
+            <label>عدد الأيام </label>
+            <input
+                type="number"
+                class="form-control"
+                name="vsDays"
+                #vsDays
+                [(ngModel)]="systemSetting.vsDays"
+                max="365"
+                min="0"
+                minlength="3"
+            >
+        </div>
+    </div>
+
+</div>
+
+<div class="row bg-space py-1 mt-2">
+    <div class="col-md-4"></div>
+    <div class="col-md-2 ">
+        <button
+            class="btn btn-success text-center btn-block ocean"
+            type="button"
+            (click)="save()"
+        ><b><i class="fas fa-check pr-2"></i>  حفظ</b> </button>
+    </div>
+    <div class="col-md-2 ">
+        <button
+            class="btn btn-danger btn-block text-center ocean"
+            type="button"
+            (click)="cancel()"
+        ><b><i class="fas fa-times pr-2 "></i> الغاء</b></button>
+    </div>
+</div>

@@ -1,0 +1,410 @@
+<div class="app-page padding-tb-20">
+  <div class="page-width page-container">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="row my-2 bg-space p-1 pt-3 pl-4 mb-5 w-100">
+          <div class="col-sm-9">
+            <h2 class="lead text-title h1">
+              <i
+                class="btn-hov fas fa-plus mr-3 mt-1 pointer text-title h4 d-inline"
+                (click)="Hide()"
+              ></i> تسجيل استبيان جديد
+            </h2>
+          </div>
+          <div class="col-sm-3 ">
+            <h2 class="lead text-title h1">
+              <i
+                class="btn-hov fas fa-eye mr-3 mt-1 pointer text-title h4 d-inline"
+                (click)="Show()"
+              ></i> عرض الاستبيانات
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-12">
+          <div class="container-fluid">
+
+            <div class="row">
+              <!--بيانات الإستبيان-->
+              <div
+                class="col-12"
+                *ngIf="isShow"
+              >
+                <div class="">
+                  <div
+                    class="row bg-space pt-3 wow fadeIn"
+                    data-wow-duration="1.5s"
+                    data-wow-delay="1s"
+                  >
+                    <div class="col-md-4">
+                      <div class="input-group bs-default mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="بحث..."
+                          name="search"
+                          (keyup)="search($event)"
+                        >
+                        <div class="input-group-append ">
+                          <span class="input-group-text  "><i class="text-primary fas fa-search"></i>
+                            <i
+                              *ngIf="queryString"
+                              (click)="removeSearch()"
+                              class="text-danger fa fa-times clickable"
+                            >
+                            </i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-7"></div>
+
+                    <div class="col-md-1 ml-0 pl-0 mb-2">
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="dropdown">
+                            <button
+                              class="btn bg-title dropdown-toggle"
+                              type="button"
+                              id="dropdownMenuButton"
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              {{filterParams.pageSize}}
+                            </button>
+                            <div
+                              class="dropdown-menu  text-dark bg-title"
+                              aria-labelledby="dropdownMenuButton"
+                            >
+                              <a
+                                class="dropdown-item theme-dropdown"
+                                (click)="setPageSize(10)"
+                              ><b>10</b></a>
+                              <a
+                                class="dropdown-item theme-dropdown"
+                                (click)="setPageSize(20)"
+                              ><b>20</b>
+                              </a>
+                              <a
+                                class="dropdown-item theme-dropdown"
+                                (click)="setPageSize(30)"
+                              ><b>30</b></a>
+                              <a
+                                class="dropdown-item theme-dropdown"
+                                (click)="setPageSize(40)"
+                              ><b>40</b></a>
+                              <a
+                                class="dropdown-item theme-dropdown b"
+                                (click)="setPageSize(50)"
+                              ><b>50</b></a>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <table class="table table-striped">
+                      <thead class="">
+                        <tr class="bg-space ">
+                          <th
+                            *ngFor="let title of config"
+                            class="text-center"
+                          > {{title.label}}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="let prop of votingList; let i=index"
+                          class="wow slideInLeft"
+                        >
+                          <td>{{prop.VotingID }}</td>
+                          <td>{{prop.VotingName}}</td>
+                          <td>{{prop.VotingDate | appDate}}</td>
+                          <td>{{prop.VotingQuestion}}</td>
+                          <td>{{prop.choises}}
+
+                            <button
+                              class=""
+                              title="انهاء "
+                              (click)="Finish(prop)"
+                            ><i class="far fa-trash-alt btn-hov"></i></button>
+                               </td>
+                        </tr>
+
+                      </tbody>
+
+                    </table>
+                  </div>
+                  <div class="row text-center">
+                    <div class="col-md-9 col-sm-9 ml-3">
+                      <app-pagination
+                        *ngIf="totalNumberOfPages && !(totalNumberOfPages==1)"
+                        [page]="filterParams.pageNumber"
+                        [size]="totalNumberOfPages"
+                        (onChange)="changePageNumber($event)"
+                      >
+                      </app-pagination>
+                    </div>
+                    <div class="col-md-3 col-sm-3 form-group text-left">
+                      <app-table-info
+                        *ngIf="votingList?.length>0 && !busyLoading"
+                        [page]="filterParams.pageNumber"
+                        [pageSize]="filterParams.pageSize"
+                        [total]="totalNumberOfItems"
+                      >
+                      </app-table-info>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row form-group"
+        *ngIf="!isShow"
+      >
+        <div class="col-12">
+          <div class="container-fluid">
+
+            <div class="row">
+
+              <div class="form-group col-md-3 col-sm-6 ">
+                <label> التاريخ
+                </label>
+                <input
+                  class="form-control disabled-input"
+                  [value]="myDate | appDate"
+                  readonly />
+              </div>
+              <div class="form-group col-md-3 col-sm-6">
+                <label> من تاريخ
+                </label>
+                <gregorian-hijri-calendar
+                  #FromDate
+                  [gDate]="voting.VotingStartDate"
+                  [disabled]="false"
+                  [hidden]="false"
+                  (onSelect)="selectVotingStartDate($event)" >
+                </gregorian-hijri-calendar>
+                <input
+                  class="form-control"
+                  [value]="voting.VotingStartDate|appDate"
+                  readonly
+                  style="display: none;" />
+              </div>
+              <div class="form-group col-md-3 col-sm-6">
+                <label> إلي تاريخ
+                </label>
+                <gregorian-hijri-calendar
+                  #FromDate
+                  [gDate]="voting.VotingEndDate"
+                  [disabled]="false"
+                  [hidden]="false"
+                  (onSelect)="selectVotingEndDate($event)" >
+                </gregorian-hijri-calendar>
+                <input
+                  class="form-control"
+                  [value]="voting.VotingEndDate|appDate"
+                  readonly
+                  style="display: none;"
+                />
+              </div>
+              <div class="form-group col-md-3 col-sm-6 ">
+                <label> عنوان الإستبيان
+                </label>
+                <input
+                  class="form-control"
+                  [(ngModel)]="voting.VotingName"  >
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6 col-sm-6 ">
+                <label>
+                  سؤال الإستبيان
+                </label>
+                <input
+                  class="form-control"
+                  [(ngModel)]="voting.VotingQuestion">
+              </div>
+              <div class="col-md-2 ">
+                <button
+                  class="btn  bg-info text-title btn-block  "
+                  style="margin-top: 30px;"
+                  data-toggle="modal"
+                  data-target="#exampleModal" >
+                  <b>إجابات الإستبيان
+                  </b>
+                </button>
+              </div>
+              <div class="col-md-2 ">
+                <button
+                  class="btn bg-add text-title btn-block  "
+                  style="margin-top: 30px;"
+                  (click)="save()"
+                  type="button"  >
+                  <b>حفظ <i class="far fa-save"></i></b>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-12">
+        <div class="container-fluid">
+          <table
+            class="table table-striped"
+            [hidden]="!ShowTabel"  >
+            <thead class="">
+              <tr class="bg-space">
+                <th *ngFor="let title of configs"> {{title.label}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of voting.VotingDetails ; let i=index"
+                class="wow slideInLeft">
+                <td>{{item.VotingDetailsID}}</td>
+                <td>{{item.Answer}}</td>
+                <td>{{item.choises}}
+                  <button
+                    class=""
+                    title="تعديل "
+                    (click)="fill(i)"
+                    data-toggle="modal"
+                    data-target="#basicExampleModal"
+                  ><i class="fas fa-file btn-hov text-gray "></i></button>
+                  <button
+                    class=""
+                    title="حذف "
+                    (click)="delete(item.VotingDetailsID ,item.Answer,i)"
+                  ><i class="far fa-trash-alt btn-hov"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true" >
+    <div
+      class="modal-dialog modal-dialog-centered"
+      role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5
+            class="modal-title"
+            id="exampleModalLabel" >
+            <i class="fas fa-plus"></i> اضافه
+          </h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">
+            <div class="row">
+              <div class="form-group col-md-12 col-sm-6 ">
+                <label> الإجابة
+                </label>
+                <input
+                  class="form-control"
+                  [(ngModel)]="Answertxt"
+                  name="Answertxt" >
+              </div>
+            </div>
+          </div>
+          <div
+            class="row mt-5 zoomin"
+            data-wow-duration="1.5s"
+            data-wow-delay=".7s" >
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                class="btn bg-add text-title btn-block display-4"
+                (click)="saveAnswer()"
+                type="button" >
+                <b>حفظ <i class="far fa-save"></i></b>
+              </button>
+            </div>
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                type="button"
+                class="btn bg-cancel text-title btn-block display-4"
+                data-dismiss="modal"
+              > <b>اغلاق <i class="far fa-window-close"></i></b> </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end add-->
+  <div
+    class="modal fade"
+    id="basicExampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true" >
+    <div
+      class="modal-dialog modal-dialog-centered"
+      role="document" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5
+            class="modal-title"
+            id="exampleModalLabel" >
+            <i class="fas fa-edit"></i> تعديل
+          </h5>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">
+            <div class="row">
+              <div class="form-group col-md-12 col-sm-6 ">
+                <label> الإجابة
+                </label>
+                <input
+                  class="form-control"
+                  [(ngModel)]="Answertxt"
+                  name="Answertxt" >
+              </div>
+            </div>
+          </div>
+          <div
+            class="row mt-5 zoomin"
+            data-wow-duration="1.5s"
+            data-wow-delay=".7s" >
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                class="btn bg-add text-title btn-block display-4"
+                (click)="saveedit()"
+                type="button" >
+                <b>حفظ <i class="far fa-save"></i></b>
+              </button>
+            </div>
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                type="button"
+                class="btn bg-cancel text-title btn-block display-4"
+                data-dismiss="modal"
+              > <b>اغلاق <i class="far fa-window-close"></i></b> </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

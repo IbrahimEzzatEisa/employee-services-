@@ -1,0 +1,846 @@
+<div class="col-md-12 my-2 bg-space p-1 ocean  pl-4 mb-5 w-100">
+  <h2 class=" text-title h1">
+    <i class="fas fa-box-open h4 mx-2"></i>تفاصيل المعاملة
+  </h2>
+</div>
+<div class="row">
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">رقم المعاملة</label>
+    <p class="text-center ">{{trxinboxDetails.Serial}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">تاريخ المعاملة</label>
+    <p class="text-center ">{{trxinboxDetails.TrxHijriDate}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">من</label>
+    <p class="text-center ">{{trxinboxDetails.FromName}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">الي</label>
+    <p class="text-center ">{{trxinboxDetails.ToName}}</p>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">نوع الوارد</label>
+    <p class="text-center ">{{trxinboxDetails.TypeName}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">الاولويه</label>
+    <p class="text-center ">{{trxinboxDetails.NationalNo}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">الحاله</label>
+    <p class="text-center ">{{trxinboxDetails.Statment}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">الموضوع</label>
+    <p class="text-center ">{{trxinboxDetails.Subject}}</p>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space"> اسم صاحب المعاملة</label>
+    <p class="text-center ">{{trxinboxDetails.CustomerName}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space"> الهويه</label>
+    <p class="text-center ">{{trxinboxDetails.NationalNo}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">الجوال</label>
+    <p class="text-center ">{{trxinboxDetails.Mobile}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">ملاحظات</label>
+    <p class="text-center ">{{trxinboxDetails.Notes}}</p>
+  </div>
+
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space"> رقم الوارد</label>
+    <p class="text-center ">{{trxinboxDetails.DocNo}}</p>
+  </div>
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space"> تاريخ الوارد</label>
+    <p class="text-center ">{{trxinboxDetails.DocHijriDate}}</p>
+  </div>
+
+  <div class="col-md-3 col-sm-6">
+    <label class="h6 d-block text-center font-weight-bolder text-space">عدد المرفقات</label>
+    <p class="text-center ">{{trxinboxDetails.AttachmentsNo}}</p>
+  </div>
+</div>
+<div class="row my-3"
+  *ngIf="isAllowAction && !hideId ">
+  <div class="col-2 mx-auto">
+    <button class="btn btn-space text-white font-weight-bolder btn-block"
+      type="button"
+      (click)="TrxRecive()">استـــلام المعاملة<i class="fas fa-fingerprint mx-2"></i></button>
+  </div>
+</div>
+<div class="row my-3"
+  *ngIf="hideId">
+  <div class="col-2 mx-auto">
+    <button class="btn btn-space text-white font-weight-bolder btn-block"
+      type="button">توجيه المعاملة</button>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade"
+    id="exampleModalseven"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog"
+      role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-space">
+          <h5 class="modal-title text-title"
+            id="exampleModalLabel"> ارسال صور المعاملة</h5>
+          <button type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="model-body">
+          
+        </div>
+        <div class="modal-footer bg-space">
+          <button type="button"
+            class="btn btn-primary"
+            (click)="saveTrxImage()">اعتماد الاجراء علي المعامله</button>
+          <button type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal">اغلاق</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row"
+  *ngIf="isTrxRecive">
+  <button type="button"
+    class="btn btn-primary mx-auto"
+    data-toggle="modal"
+    data-target="#exampleModalone">احاله المعاملة</button>
+  <button type="button"
+    class="btn btn-danger mx-auto"
+    data-toggle="modal"
+    data-target="#exampleModaltow">توجيه المعاملة</button>
+  <button type="button"
+    class="btn btn-warning mx-auto"
+    data-toggle="modal"
+    data-target="#exampleModalthree">تصدير المعاملة</button>
+  <button type="button"
+    class="btn btn-dark mx-auto"
+    data-toggle="modal"
+    data-target="#exampleModalfour">تمديد المعاملة</button>
+  <button type="button"
+    class="btn btn-space text-title mx-auto"
+    data-toggle="modal"
+    data-target="#exampleModalfive">حفظ المعاملة</button>
+  <button type="button"
+    class="btn btn-success mx-auto"
+    data-toggle="modal"
+    data-target="#exampleModalsix">اصل المعاملة</button>
+  <button type="button"
+    class="btn btn-info mx-auto"
+    data-toggle="modal"
+    data-target="#exampleModalseven">ارسال صور المعاملة</button>
+  <button type="button"
+    class="btn btn-secondary mx-auto"
+    data-toggle="modal"
+    data-target="#exampleModaleight">خطاب الرد</button>
+  <button type="button"
+    *ngIf="isAttacheAlow"
+    class="btn btn-danger mx-auto"
+    data-toggle="modal"
+    data-target="#exampleModaleight">خطاب الرد</button>
+
+</div>
+<hr class="mb-3">
+<!-- Tabs -->
+<section id="tabs">
+  <div class="container">
+    <!-- <h6 d-block text-center class="section-title h1  text-space">{{title || 'طلب انتداب' }}</h6 d-block text-center> -->
+
+    <div class="row">
+      <div class="nav nav-tabs nav-fill col-12"
+        id="nav-tab"
+        role="tablist">
+        <a class="nav-item nav-link active col-12 text-space"
+          data-toggle="tab"
+          href="#nav-home"
+          role="tab"
+          aria-controls="nav-home"
+          aria-selected="true"
+          (click)="title = 'الشروحات و التوجيهات'; page = 1;changeTableContent() ">الشروحات و التوجيهات </a>
+        <a class="nav-item nav-link col-12 text-space"
+          data-toggle="tab"
+          href="#nav-profile"
+          role="tab"
+          aria-controls="nav-profile"
+          aria-selected="false"
+          (click)="title = 'المرفقات'; page = 2;changeTableContent()"> المرفقات</a>
+        <a class="nav-item nav-link col-12 text-space"
+          data-toggle="tab"
+          href="#nav-contact"
+          role="tab"
+          aria-controls="nav-contact"
+          aria-selected="false"
+          (click)="title = 'الافدات'; page = 3;changeTableContent()"> الافدات</a>
+        <a class="nav-item nav-link col-12 text-space"
+          data-toggle="tab"
+          href="#nav-about"
+          role="tab"
+          aria-controls="nav-about"
+          aria-selected="false"
+          (click)="title = 'صور المعاملة'; page = 4;changeTableContent()"> صور المعاملة</a>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+
+
+<div class="row"
+  *ngIf="list.length >= 1">
+  <table class="table">
+    <thead class="bg-space text-title">
+      <tr>
+        <th class="text-center bg-space text-title"> المسلسل</th>
+        <th *ngFor="let title of titles"
+          class="text-center bg-space text-title">{{title}}</th>
+        <!-- <th *ngIf="page == 1">ملف الخطاب</th>
+        <th *ngIf="page == 2">المرفق</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of list; let i=index">
+        <td>{{i + 1 | toArDigit}}</td>
+        <td *ngFor="let prop of properties; let i=index">{{item[prop]}}</td>
+        <!-- <td *ngIf="page == 1"></td>
+        <td *ngIf="page == 2"><a ng-r></a></td> -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="row"
+  *ngIf="list.length < 1">
+  <div class="col-12">
+    <h1 class="text-center text-space">لا يـــوجـد بيـــــانات</h1>
+  </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade"
+  id="exampleModalone"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-space">
+        <h5 class="modal-title text-title"
+          id="exampleModalLabel">احاله المعاملة</h5>
+        <button type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 class="text-info">يرجي اختيار الحقول التاليه ثم اعتمد تنفيذ الاجراء علي المعامله .</h6>
+        <div class="row">
+          <div class="form-group col-12">
+            <label>القسم</label>
+            <app-dropdown-list idField="ID"
+              textField="Name"
+              pageSize="7"
+              palceholder="اختر الاداره\القسم"
+              [selectedItem]="selectedDepartment"
+              [list]="departmentList"
+              [isRequired]="true"
+              [isReadonly]="false"
+              [busyLoading]="busyLoadingDepartment"
+              (onSelect)="selecteDepartment($event)">
+            </app-dropdown-list>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-12">
+            <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> التوجيه</label>
+            <app-dropdown-list idField="StatementID"
+              textField="StatementText"
+              pageSize="7"
+              palceholder="التوجيه"
+              [list]="trxDetailsList"
+              [isEnableAdd]="true"
+              [selectedItem]="selectedTrxDetails"
+              [isRequired]="true"
+              [isReadonly]="false"
+              [busyLoading]="busyLoadingTrxDirectiveStatements"
+              (onSelect)="selectTrxDetails($event)"
+              (addedValue)="addToList($event)">
+            </app-dropdown-list>
+            <!-- <div class="text-danger"
+                        *ngIf="PerGroupID.invalid && formSubmitted">
+                        <p>هذا الحقل مطلوب</p>
+                      </div> -->
+          </div>
+        </div>
+        <div class="row my-2">
+          <div class="col-12">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend bg-space">
+                <span class="input-group-text bg-space text-title"
+                  id="inputGroupFileAddon01">ارفاق ملف</span>
+              </div>
+              <div class="custom-file">
+                <input type="file"
+                  class="custom-file-input"
+                  (change)="uploadFile($event.target.files)"
+                  id="inputGroupFile01"
+                  aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label"
+                  for="inputGroupFile01">اضغط لاختيار ملف </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-space">
+        <button type="button"
+          class="btn btn-primary"
+          (click)="save(5)">اعتماد الاجراء علي المعامله</button>
+        <button type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal">اغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade "
+  id="exampleModaltow"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-space">
+        <h5 class="modal-title text-title"
+          id="exampleModalLabel">توجيه المعاملة</h5>
+        <button type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 class="text-info">يرجي اختيار الحقول التاليه ثم اعتمد توجيه المعامله .</h6>
+        <div class="row">
+          <div class="form-group col-12">
+            <label> توجيه الي</label>
+            <app-dropdown-list idField="ID"
+              textField="Name"
+              pageSize="7"
+              palceholder="اختر الموظف"
+              [list]="redirectEmployeeList"
+              [selectedItem]="selectedEmployee"
+              [isRequired]="true"
+              [isReadonly]="false"
+              [busyLoading]="busyLoadingEmployee"
+              (onSelect)="selectEmployee($event)">
+            </app-dropdown-list>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-12">
+            <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> التوجيه</label>
+            <app-dropdown-list idField="StatementID"
+              textField="StatementText"
+              pageSize="7"
+              palceholder="التوجيه"
+              [list]="trxDetailsList"
+              [selectedItem]="selectedTrxDetails"
+              [isEnableAdd]="true"
+              [isRequired]="true"
+              [isReadonly]="false"
+              [busyLoading]="busyLoadingTrxDirectiveStatements"
+              (onSelect)="selectTrxDetails($event)"
+              (addedValue)="addToList($event)">
+            </app-dropdown-list>
+            <!-- <div class="text-danger"
+                      *ngIf="PerGroupID.invalid && formSubmitted">
+                      <p>هذا الحقل مطلوب</p>
+                    </div> -->
+          </div>
+        </div>
+        <div class="row my-2">
+          <div class="col-12">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend bg-space">
+                <span class="input-group-text bg-space text-title"
+                  id="inputGroupFileAddon01">ارفاق ملف</span>
+              </div>
+              <div class="custom-file">
+                <input type="file"
+                  class="custom-file-input"
+                  (change)="uploadFile($event.target.files)"
+                  id="inputGroupFile01"
+                  aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label"
+                  for="inputGroupFile01">اضغط لاختيار ملف </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-space">
+        <button type="button"
+          class="btn btn-primary"
+          (click)="save(4)">اعتماد الاجراء علي المعامله</button>
+        <button type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal">اغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade"
+  id="exampleModalthree"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-space">
+        <h5 class="modal-title text-title"
+          id="exampleModalLabel">تصدير المعاملة</h5>
+        <button type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 class="text-info">يرجي اختيار الحقول التاليه ثم اعتمد تسديد\تصدير المعامله .</h6>
+        <div class="row">
+          <div class="form-group col-12">
+            <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> التوجيه</label>
+            <app-dropdown-list idField="StatementID"
+              textField="StatementText"
+              pageSize="7"
+              palceholder="التوجيه"
+              [list]="trxDetailsList"
+              [selectedItem]="selectedTrxDetails"
+              [isEnableAdd]="true"
+              [isRequired]="true"
+              [isReadonly]="false"
+              [busyLoading]="busyLoadingTrxDirectiveStatements"
+              (onSelect)="selectTrxDetails($event)"
+              (addedValue)="addToList($event)">
+            </app-dropdown-list>
+            <!-- <div class="text-danger"
+                    *ngIf="PerGroupID.invalid && formSubmitted">
+                    <p>هذا الحقل مطلوب</p>
+                  </div> -->
+          </div>
+        </div>
+        <div class="row my-2">
+          <div class="col-12">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend bg-space">
+                <span class="input-group-text bg-space text-title"
+                  id="inputGroupFileAddon01">ارفاق ملف</span>
+              </div>
+              <div class="custom-file">
+                <input type="file"
+                  class="custom-file-input"
+                  (change)="uploadFile($event.target.files)"
+                  id="inputGroupFile01"
+                  aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label"
+                  for="inputGroupFile01">اضغط لاختيار ملف </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-space">
+        <button type="button"
+          class="btn btn-primary"
+          (click)="save(7)">اعتماد الاجراء علي المعامله</button>
+        <button type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal">اغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade"
+  id="exampleModalfour"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-space">
+        <h5 class="modal-title text-title"
+          id="exampleModalLabel">تمديد المعاملة</h5>
+        <button type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 class="text-info">يرجي اختيار الحقول التاليه ثم اعتمد تمديد المعامله .</h6>
+        <div class="row">
+          <div class="form-group col-12">
+            <label> توجيه الي</label>
+            <app-dropdown-list idField="ID"
+              textField="Name"
+              pageSize="7"
+              palceholder="اختر الموظف"
+              [list]="redirectEmployeeList"
+              [selectedItem]="selectedEmployee"
+              [isRequired]="true"
+              [isReadonly]="false"
+              [busyLoading]="busyLoadingEmployee"
+              (onSelect)="selectEmployee($event)">
+            </app-dropdown-list>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-12">
+            <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> التوجيه</label>
+            <app-dropdown-list idField="StatementID"
+              textField="StatementText"
+              pageSize="7"
+              palceholder="التوجيه"
+              [list]="trxDetailsList"
+              [selectedItem]="selectedTrxDetails"
+              [isEnableAdd]="true"
+              [isRequired]="true"
+              [isReadonly]="false"
+              [busyLoading]="busyLoadingTrxDirectiveStatements"
+              (onSelect)="selectTrxDetails($event)"
+              (addedValue)="addToList($event)">
+            </app-dropdown-list>
+            <!-- <div class="text-danger"
+                      *ngIf="PerGroupID.invalid && formSubmitted">
+                      <p>هذا الحقل مطلوب</p>
+                    </div> -->
+          </div>
+        </div>
+        <div class="row my-2">
+          <div class="col-12">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend bg-space">
+                <span class="input-group-text bg-space text-title"
+                  id="inputGroupFileAddon01">ارفاق ملف</span>
+              </div>
+              <div class="custom-file">
+                <input type="file"
+                  class="custom-file-input"
+                  (change)="uploadFile($event.target.files)"
+                  id="inputGroupFile01"
+                  aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label"
+                  for="inputGroupFile01">اضغط لاختيار ملف </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-space">
+        <button type="button"
+          class="btn btn-primary"
+          (click)="save(4)">اعتماد الاجراء علي المعامله</button>
+        <button type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal">اغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade"
+  id="exampleModalfive"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-space">
+        <h5 class="modal-title text-title"
+          id="exampleModalLabel">حفظ المعاملة</h5>
+        <button type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 class="text-info">هل انت متاكد من حفظ المعاملةالحاية؟ </h6>
+        <div class="row">
+          <div class="form-group col-12">
+            <label>مجلد الحفظ</label>
+            <app-dropdown-list idField="ID"
+              textField="Name"
+              pageSize="7"
+              palceholder="محفوظات عامه"
+              [list]="folderList"
+              [selectedItem]="selectedFolder"
+              [isEnableAdd]="true"
+              [isRequired]="true"
+              [isReadonly]="false"
+              [busyLoading]="busyLoadingfolders"
+              (onSelect)="selectFolder($event)"
+              (addedValue)="addFolderToFolderList($event)">
+            </app-dropdown-list>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-12">
+            <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> التوجيه</label>
+            <app-dropdown-list idField="StatementID"
+              textField="StatementText"
+              pageSize="7"
+              palceholder="التوجيه"
+              [list]="trxDetailsList"
+              [selectedItem]="selectedTrxDetails"
+              [isEnableAdd]="true"
+              [isRequired]="true"
+              [isReadonly]="false"
+              [busyLoading]="busyLoadingTrxDirectiveStatements"
+              (onSelect)="selectTrxDetails($event)"
+              (addedValue)="addToList($event)">
+            </app-dropdown-list>
+            <!-- <div class="text-danger"
+                      *ngIf="PerGroupID.invalid && formSubmitted">
+                      <p>هذا الحقل مطلوب</p>
+                    </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-space">
+        <button type="button"
+          class="btn btn-primary"
+          (click)="save(6)">اعتماد الاجراء علي المعامله</button>
+        <button type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal">اغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade"
+  id="exampleModalsix"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-space">
+        <h5 class="modal-title text-title"
+          id="exampleModalLabel">طلب اصل المعاملة</h5>
+        <button type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 class="text-info">هل انت متاكد من طلبك اصل المعاملة ؟</h5>
+      </div>
+      <div class="modal-footer bg-space">
+        <button type="button"
+          class="btn btn-primary"
+          (click)="save(13)">اعتماد الاجراء علي المعامله</button>
+        <button type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal">اغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade"
+  id="exampleModalseven"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-space">
+        <h5 class="modal-title text-title"
+          id="exampleModalLabel"> ارسال صور المعاملة</h5>
+        <button type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6 class="text-info">يرجي اختيار الحقول التالية ثم اعتمد الارسال .</h6>
+        <div class="row">
+          <div class="col-12">
+            <label>الصادر الى</label>
+            <app-dropdown-list #SMSDirect
+              idField="ID"
+              textField="Name"
+              pageSize="7"
+              palceholder=" "
+              [list]="copyToDepartmentsList"
+              [isReadonly]="trxImage.AllManagers || trxImage.AllDepts || trxImage.AllUsers"
+              [busyLoading]="busyLoadingCopyToDepartments"
+              (onSelect)="SelectCopyOfDepartment($event)">
+            </app-dropdown-list>
+            <div class="chosen-container chosen-container-multi chosen-rtl chosen-with-drop chosen-container-active">
+              <ul *ngIf="copyToDepartmentsListShadow.length > 0 "
+                class="chosen-choices">
+                <li *ngFor="let item of copyToDepartmentsListShadow; let i=index"
+                  class="bg-space search-choice text-title m-2"> <i class="fas fa-times px-1"
+                    (click)="deleteDepartmentItem(i)"></i>{{item.Name}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-11 mx-auto">
+
+            <div class="form-check">
+              <input type="checkbox"
+                class="form-check-input"
+                name="AllUsers"
+                [(ngModel)]="trxImage.AllUsers">
+              <label class="form-check-label">
+                تسخه لجميع موظفي القسم
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input type="checkbox"
+                class="form-check-input"
+                name="AllDepts"
+                [(ngModel)]="trxImage.AllDepts">
+              <label class="form-check-label">
+                نسخه لورساء الاقسام
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input type="checkbox"
+                class="form-check-input"
+                name="AllManagers"
+                [(ngModel)]="trxImage.AllManagers">
+              <label class="form-check-label">
+                نسخه لمديري الادارات
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer bg-space">
+        <button type="button"
+          class="btn btn-primary"
+          (click)="saveTrxImage()">اعتماد الاجراء علي المعامله</button>
+        <button type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal">اغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade"
+  id="exampleModaleight"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog"
+    role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"
+          id="exampleModalLabel">Modal title</h5>
+        <button type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        8
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal">Close</button>
+        <button type="button"
+          class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

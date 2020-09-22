@@ -1,0 +1,96 @@
+<div class="row my-2 bg-space p-1 pt-3 pl-4">
+    <h4 class="text-title">عرض الأخبار</h4>
+</div>
+
+<div class="">
+    <div class="row bg-space pt-3 wow fadeIn" data-wow-duration="1.5s" data-wow-delay="1s">
+        <div class="col-md-4">
+            <div class="input-group bs-default mb-3">
+                <!-- <i class="btn-hov fas fa-plus mr-3 mt-1 pointer text-title h4 d-inline" (click)="addWindow()"></i> -->
+                <i class="btn-hov fas fa-plus mr-3 mt-1 pointer text-title h4 d-inline" (click)="navigateToAdd()"
+                    name="create"></i>
+                <input type="text" class="form-control" placeholder="بحث..." name="search" (keyup)="search($event)">
+                <div class="input-group-append ">
+                    <span class="input-group-text  "><i class="text-primary fas fa-search"></i>
+                        <i *ngIf="queryString" (click)="removeSearch()" class="text-danger fa fa-times clickable">
+                        </i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7"></div>
+
+        <div class="col-md-1 ml-0 pl-0 mb-2">
+            <div class="row">
+                <div class="col-6">
+                    <div class="dropdown">
+                        <button class="btn bg-title dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{filterParams.pageSize}}
+                        </button>
+                        <div class="dropdown-menu  text-dark bg-title" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item theme-dropdown" (click)="setPageSize(10)"><b>10</b></a>
+                            <a class="dropdown-item theme-dropdown" (click)="setPageSize(20)"><b>20</b></a>
+                            <a class="dropdown-item theme-dropdown" (click)="setPageSize(30)"><b>30</b></a>
+                            <a class="dropdown-item theme-dropdown" (click)="setPageSize(40)"><b>40</b></a>
+                            <a class="dropdown-item theme-dropdown" (click)="setPageSize(50)"><b>50</b></a>
+                            <a class="dropdown-item theme-dropdown " (click)="setPageSize(60)"><b>60</b></a>
+                            <a class="dropdown-item theme-dropdown " (click)="setPageSize(70)"><b>70</b></a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead class="">
+                <tr class="bg-space">
+                    <th *ngFor="let title of configs" class="text-center"> {{title.label}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let prop of newsList; let i=index" class="wow slideInLeft">
+                    <td>{{prop.NewsID}}</td>
+                    <td>{{prop.NewsDate}}</td>
+                    <td>{{prop.NewsTitle}}</td>
+                    <td>{{prop.NewsDescription}}</td>
+
+
+                    <td>{{prop.choises}}
+                        <button title="تعديل " (click)=" navigateToEdit(prop.NewsID)" 
+                        class="d-inline"
+                        name="update"><i
+                                class="fas fa-file  text-gray "></i></button>
+                        <button class="d-inline" title="حذف " name="delete" (click)="delete(prop.NewsID , prop.NewsTitle , i)"><i
+                                class="far fa-trash-alt "></i></button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-3 col-sm-9 ml-3">
+            <app-pagination *ngIf="totalNumberOfPages && !(totalNumberOfPages==1)" [page]="filterParams.pageNumber"
+                [size]="totalNumberOfPages" (onChange)="changePageNumber($event)">
+            </app-pagination>
+        </div>
+        <div class="col-md-3 col-sm-12 form-group text-left ml-auto">
+            <app-table-info
+              *ngIf="newsList?.length>0 && !busyLoading"
+              [page]="filterParams.pageNumber"
+              [pageSize]="filterParams.pageSize"
+              [length]="newsList.length"
+              [total]="totalNumberOfItems"
+            >
+            </app-table-info>
+          </div>
+        
+    </div>
+</div>

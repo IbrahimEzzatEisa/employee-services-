@@ -1,0 +1,404 @@
+<div
+  class="row bg-space p-1 pt-3 pl-4 mb-2   RightBig"
+>
+  <h5 class=" text-title ">
+    إدارة الاقسام والإدارات  </h5>
+</div>
+
+<div class="">
+  <div
+    class="row bg-space pt-3 wow fadeIn"
+    data-wow-duration="1.5s"
+    data-wow-delay="1s"
+  >
+    <div class="col-md-4">
+      <div class="input-group bs-default mb-3">
+        <i
+          class="btn-hov fas fa-plus mr-3 mt-1 pointer text-title h4 d-inline"
+          data-toggle="modal"
+          data-target="#exampleModal"
+          name="create"
+        ></i>
+
+        <input
+          type="text"
+          class="form-control"
+          placeholder="بحث..."
+          name="search"
+          (keyup)="search($event)"
+        >
+        <div class="input-group-append ">
+          <span class="input-group-text  "><i class="text-primary fas fa-search"></i>
+            <i
+              *ngIf="queryString"
+              (click)="removeSearch()"
+              class="text-danger fa fa-times clickable"
+            >
+            </i></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7"></div>
+
+    <div class="col-md-1 ml-0 pl-0 mb-2">
+      <div class="row">
+        <div class="col-6">
+          <div class="dropdown">
+            <button
+              class="btn bg-title dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {{filterParams.pageSize}}
+            </button>
+            <div
+              class="dropdown-menu  text-dark bg-title"
+              aria-labelledby="dropdownMenuButton"
+            >
+              <a
+                class="dropdown-item theme-dropdown"
+                (click)="setPageSize(10)"
+              ><b>10</b></a>
+              <a
+                class="dropdown-item theme-dropdown"
+                (click)="setPageSize(20)"
+              ><b>20</b>
+              </a>
+              <a
+                class="dropdown-item theme-dropdown"
+                (click)="setPageSize(30)"
+              ><b>30</b></a>
+              <a
+                class="dropdown-item theme-dropdown"
+                (click)="setPageSize(40)"
+              ><b>40</b></a>
+              <a
+                class="dropdown-item theme-dropdown b"
+                (click)="setPageSize(50)"
+              ><b>50</b></a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <div class="row">
+    <table class="table table-striped">
+      <thead class="">
+        <tr class="bg-space">
+          <th
+            *ngFor="let title of configs"
+            class="text-center"
+          > {{title.label}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let prop of departmentsList; let i=index"
+          class="wow slideInLeft"
+        >
+          <td>{{prop.DepartmentID}}</td>
+          <td>{{prop.DepartmentName}}</td>
+          <td>{{prop.ParentName}}</td>
+          <td>{{prop.DeparturePermissionCount}}</td>
+          <td>{{prop.choises}}
+            <button
+              class=""
+              title="تعديل "
+              (click)=" fill(prop)"
+              data-toggle="modal"
+              data-target="#basicExampleModal"
+              name="update"
+            ><i class="fas fa-file btn-hov text-gray "></i></button>
+            <button
+              class=""
+              title="حذف "
+              (click)="delete(prop.DepartmentID,prop.DepartmentName , i)"
+            ><i class="far fa-trash-alt btn-hov"></i></button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-md-4 col-sm-9 ml-3">
+      <app-pagination
+        *ngIf="totalNumberOfPages && !(totalNumberOfPages==1)"
+        [page]="filterParams.pageNumber"
+        [size]="totalNumberOfPages"
+        (onChange)="changePageNumber($event)"
+      >
+      </app-pagination>
+    </div>
+    <div class="col-md-4 col-sm-3 form-group ml-auto">
+      <app-table-info
+        *ngIf="departmentsList?.length>0 && !busyLoading"
+        [page]="filterParams.pageNumber"
+        [pageSize]="filterParams.pageSize"
+        [total]="totalNumberOfItems"
+        [length]="departmentsList.length"
+      >
+      </app-table-info>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- Modal edit-->
+<div
+  class="modal fade"
+  id="basicExampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+        >
+          <i class="fas fa-user-edit"></i> تعديل
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form
+            name="form"
+            #form="ngForm"
+          >
+            <div class="row">
+
+              <div class="col-md-3 col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label> المسلسل</label>
+                  <input
+                    #DepartmentID="ngModel"
+                    class="form-control"
+                    name="DepartmentID"
+                    autocomplete="off"
+                    type="number"
+                    [(ngModel)]="department.DepartmentID"
+                  >
+                </div>
+              </div>
+
+
+              <div class="col-md-9 col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> الاسم</label>
+                  <input
+                    #DepartmentName="ngModel"
+                    class="form-control"
+                    name="DepartmentName"
+                    autocomplete="off"
+                    type="text"
+                    required
+                    [ngClass]="{'is-invalid': formSubmitted && DepartmentName.invalid || (DepartmentName.invalid && (DepartmentName.dirty || DepartmentName.touched))}"
+                    [(ngModel)]="department.DepartmentName"
+                  >
+                  <div
+                    class="text-danger"
+                    *ngIf="DepartmentName.invalid && formSubmitted"
+                  >
+                    <p>هذا الحقل مطلوب</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12 col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>الادارة</label>
+                  <app-dropdown-list
+                    #ParentName
+                    idField="DepartmentName"
+                    textField="DepartmentName"
+                    pageSize="7"
+                    palceholder="الإدارة"
+                    [list]="ParentList"
+                    [selectedItemId]="department.ParentName"
+                    [isRequired]="false"
+                    [isReadonly]="false"
+                    [busyLoading]="busyLoadingParent"
+                    (onSelect)="SelectParent($event)"
+                  >
+                  </app-dropdown-list>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-md-12 col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label> عدد اذن مهمة العمل المسموح به خلال الشهر</label>
+                  <input
+                    #DeparturePermissionCount="ngModel"
+                    class="form-control"
+                    name="DeparturePermissionCount"
+                    autocomplete="off"
+                    type="number"
+                    [(ngModel)]="department.DeparturePermissionCount"
+                  >
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row ">
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                class="btn bg-add btn-success btn-block display-4"
+                (click)="saveedit()"
+                type="button"
+              >
+                <b>حفظ <i class="far fa-save"></i></b>
+              </button>
+            </div>
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                type="button"
+                class="btn bg-cancel btn-danger  btn-block-black display-4"
+                data-dismiss="modal"
+              >
+                <b>اغلاق
+                  <i class="far fa-window-close"></i></b> </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal  add-->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5
+          class="modal-title"
+          id="exampleModalLabel"
+        >
+          <i class="fas fa-user-plus"></i> اضافة
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form
+            name="form"
+            #form="ngForm"
+          >
+            <div class="row ">
+
+
+              <div class="col-md-5 col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label><sup class="text-danger"><i class="fas fa-asterisk"></i></sup> الاسم</label>
+                  <input
+                    #DepartmentName="ngModel"
+                    class="form-control"
+                    name="DepartmentName"
+                    autocomplete="off"
+                    type="text"
+                    required
+                    [ngClass]="{'is-invalid': formSubmitted && DepartmentName.invalid || (DepartmentName.invalid && (DepartmentName.dirty || DepartmentName.touched))}"
+                    [(ngModel)]="department.DepartmentName"
+                  >
+                  <div
+                    class="text-danger"
+                    *ngIf="DepartmentName.invalid && formSubmitted"
+                  >
+                    <p>هذا الحقل مطلوب</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label> عدد اذن مهمة العمل المسموح به خلال الشهر</label>
+                  <input
+                    #DeparturePermissionCount="ngModel"
+                    class="form-control"
+                    name="DeparturePermissionCount"
+                    autocomplete="off"
+                    type="number"
+                    [(ngModel)]="department.DeparturePermissionCount"
+                  >
+                </div>
+              </div>
+
+              <div class="col-md-12 col-sm-12 mx-auto">
+                <div class="form-group">
+                  <label>الادارة</label>
+                  <app-dropdown-list
+                    #ParentName
+                    idField="DepartmentID"
+                    textField="DepartmentName"
+                    pageSize="7"
+                    palceholder="الإدارة"
+                    [list]="ParentList"
+                    [selectedItemId]="department.ParentName"
+                    [isRequired]="false"
+                    [isReadonly]="false"
+                    [busyLoading]="busyLoadingParent"
+                    (onSelect)="SelectParent($event)"
+                  >
+                  </app-dropdown-list>
+                </div>
+              </div>
+
+            </div>
+          </form>
+          <div class="row">
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                class="btn bg-add text-title btn-block display-4"
+                (click)="saveadd()"
+                type="button"
+              >
+                <b>حفظ <i class="far fa-save"></i></b>
+              </button>
+
+
+            </div>
+            <div class="col-md-3 col-sm-12 mx-auto">
+              <button
+                type="button"
+                class="btn bg-cancel text-title btn-block display-4"
+                data-dismiss="modal"
+              > <b>اغلاق
+                  <i class="far fa-window-close"></i></b> </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
